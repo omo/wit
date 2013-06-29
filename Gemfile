@@ -5,6 +5,7 @@ gem 'redcarpet'
 gem 'psych'
 gem 'liquid'
 gem 'thor'
+gem 'capistrano'
 
 # Should be needed only for dev.
 gem 'rspec'

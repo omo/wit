@@ -1,0 +1,45 @@
+
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+}
+
+.note {
+  font-family: Verdana, serif;
+  width: 80%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18pt;
+  line-height: 170%;
+}
+
+.note h1 {
+  font-family: "Alef", serif;
+  padding : 0.5em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  background-color: #eee;
+  font-size: 24pt;
+  border-styl
+  border-radius: 5px;
+}
+
+h1#identity {
+  margin: 0px;
+  position: absolute;
+  top: 0px;
+  right: 100px;
+
+  color: white;
+  background-color: #aad;
+  border-radius: 0 0 10px 10px;
+
+  font-family: "Cinzel", serif;
+  font-size: 12px;
+  font-weight: normal;
+  padding: 0.5em 1em 0.5em 1em;
+  
+
+}

@@ -40,7 +40,7 @@ module Wit
     def open_notebook
       # FIXME: should be configurable
       root = File.realpath(File.join(File.dirname(__FILE__), "../../t"))
-      Wit::Notebook.new(root)
+      Wit::Notebook.new(root, thinking: true)
     end
   end
 end

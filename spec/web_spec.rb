@@ -9,13 +9,14 @@ module WitWebTesting
   def app() Sinatra::Application; end
 end
 
-set :raise_errors, false
+enable :raise_errors
+set :environment, :test
 
 describe "THe web app" do
   include WitWebTesting
 
   it "has index apge" do
-    get "/"
+    get "/latest"
     last_response.should be_ok
   end
 end

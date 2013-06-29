@@ -5,7 +5,7 @@ require 'nokogiri'
 describe Wit::Notebook do
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./")
+      @book = Wit::Notebook.new("./", thinking: true)
     end
 
     it "makes a name from date like URL components" do
@@ -32,7 +32,7 @@ describe Wit::Notebook do
 
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./t")
+      @book = Wit::Notebook.new("./t", thinking: true)
     end
 
     it "lists latest notebook names" do

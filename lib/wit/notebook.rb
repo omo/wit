@@ -56,17 +56,19 @@ module Wit
   # FIXME: should have its own file
   class Note
     liquid_methods :body, :url
+    attr_reader :name
 
     def initialize(name)
       # FIXME: ensure if it is header-prepended markdown
       @name = name
     end
 
-    def exist?() @name.exist?; end
-    def url() @name.url; end
+    def exist?() name.exist?; end
+    def url() name.url; end
+    def published?() head["publish"]; end
 
     def head
-      Psych.load(head_text || '')
+      @head ||= Psych.load(head_text || '')
     end
 
     def body
@@ -93,7 +95,7 @@ EOF
     private
 
     def data
-      open(@name.filename).read
+      @data ||= open(@name.filename).read
     end
 
     def body_and_head_text
@@ -102,8 +104,8 @@ EOF
       return { :head => nil,   :body => first  }
     end
 
-    def body_text() body_and_head_text[:body]; end
-    def head_text() body_and_head_text[:head]; end
+    def body_text() @body_text ||= body_and_head_text[:body]; end
+    def head_text() @head_text ||= body_and_head_text[:head]; end
   end
 
   class Name
@@ -125,7 +127,14 @@ EOF
       Name.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
     end
 
+    def to_note(name)
+      note = name.to_note
+      raise unless note.published? or thinking?
+      return note
+    end
+
     def latest_note_names
+      raise unless thinking?
       Enumerator.new do |y|
         Dir.glob(File.join(@root, "*")).reverse.each do |dir|
           Dir.glob(File.join(dir, "*.md")).reverse.each do |note|
@@ -145,8 +154,11 @@ EOF
       name_from_components(now.strftime("%Y"), now.strftime("%m"), now.strftime("%d"), now.strftime("%H%M"), title ? make_pathlike(title) : nil, :md)
     end
 
-    def initialize(root)
+    def initialize(root, options={})
       @root = root
+      @options = options
     end
+
+    def thinking?() @options[:thinking]; end
   end
 end
