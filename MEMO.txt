@@ -1,0 +1,8 @@
+
+
+# Deploy prerequirement
+
+ * $ cap deploy:prepare
+ * Installing rvm https://rvm.io/
+ * gem install bundler
+

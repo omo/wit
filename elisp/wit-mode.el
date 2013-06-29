@@ -26,6 +26,7 @@
 
 (defun wit-command-and-open (arg-str)
   (let ((filename (wit-command arg-str)))
+    (message filename)
     (find-file filename)
     filename))
 
