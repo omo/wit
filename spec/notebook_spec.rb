@@ -22,6 +22,12 @@ describe Wit::Notebook do
       name = @book.fresh_note_name(nil)
       expect(name.exist?).to be_false
     end
+
+    it "makes a name of a fresh note with title" do
+      name = @book.fresh_note_name("This is title.")
+      expect(File.basename(name.filename)).to end_with("this-is-title.md")
+    end
+
   end
 
   context do

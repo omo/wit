@@ -119,10 +119,14 @@ module Wit
       end
     end
 
+    def make_pathlike(title)
+      title.gsub(/[^(A-Za-z0-9)]+/, "-").gsub(/^\-|\-$/, "").downcase
+    end
+
     def fresh_note_name(title)
       # FIXME: Should avoid conflict
       now = Time.now
-      name_from_components(now.strftime("%Y"), now.strftime("%m"), now.strftime("%d"), now.strftime("%H%M"), title, :md)
+      name_from_components(now.strftime("%Y"), now.strftime("%m"), now.strftime("%d"), now.strftime("%H%M"), title ? make_pathlike(title) : nil, :md)
     end
 
     def initialize(root)

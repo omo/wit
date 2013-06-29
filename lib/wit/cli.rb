@@ -11,6 +11,11 @@ module Wit
       puts fresh.filename
     end
 
+    desc "latest", "Print the name of the latest note."
+    def latest
+      puts book.latest_note_names.first.filename
+    end
+
     desc "next NAME", "Print a next note entry of given one."
     def next(name)
       n = Wit::Name.new(name).walk(1)
