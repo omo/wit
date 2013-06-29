@@ -8,6 +8,9 @@ require 'erb'
 module Wit
   TYPES = [:md]
 
+  class Forbidden < StandardError; end
+  class NotFound < StandardError; end
+
   # FIXME: Should have its own file
   class Name
     attr_reader :filename
@@ -116,20 +119,21 @@ EOF
 
   class Notebook
     def name_from_components(yyyy, mm, dd, hhmm, title, type)
-      raise unless yyyy  =~ /\d\d\d\d/
-      raise unless   mm  =~ /\d\d/
-      raise unless   dd  =~ /\d\d/
-      raise unless hhmm  =~ /\d\d\d\d/
-      raise unless title =~ /(\w|\d|\-)+/ or title == nil
-      raise unless TYPES.include?(type)
+      raise NotFound unless yyyy  =~ /\d\d\d\d/
+      raise NotFound unless   mm  =~ /\d\d/
+      raise NotFound unless   dd  =~ /\d\d/
+      raise NotFound unless hhmm  =~ /\d\d\d\d/
+      raise NotFound unless title =~ /(\w|\d|\-)+/ or title == nil
+      raise NotFound unless TYPES.include?(type)
       
       title = "index" unless title
       Name.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
     end
 
     def to_note(name)
+      raise NotFound unless name.exist?
       note = name.to_note
-      raise unless note.published? or thinking?
+      raise Forbidden unless note.published? or thinking?
       return note
     end
 

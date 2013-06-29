@@ -41,5 +41,20 @@ describe "The article note" do
     expect(html.css("h2")[0].content).to include("This is title of an index page")
   end
 
+  it "hides unpublished note" do
+    get "/2012/01/02/0123-fuh"
+    expect(last_response.status).to eq(404)
+  end
+
+  it "doesn't find non-existing note" do
+    get "/2001/01/02/0123-fuh"
+    expect(last_response.status).to eq(404)
+  end
+
+  it "rejects malformced path" do
+    get "/foo/bar/baz/0123-fuh"
+    expect(last_response.status).to eq(404)
+  end
+
   # XXX: Should test not found case
 end

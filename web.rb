@@ -29,3 +29,6 @@ get '/:yyyy/:mm/:dd/:hhmm' do
   liquid :note, layout: :layout, locals: { note: book.to_note(name) }
 end
 
+error Wit::Forbidden, Wit::NotFound do
+  halt 404
+end
