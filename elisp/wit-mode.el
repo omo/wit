@@ -43,7 +43,8 @@
 	 (cached-name (wit-cache-timeline-lookup 'next current-name))
 	 (next-name (or cached-name (wit-command (format "next %s" current-name)))))
     (if (string= "" next-name)
-	(message "No more notes.")
+	(progn (ding)
+	       (message "No more notes."))
       (progn
 	(wit-cache-timeline current-name next-name)
 	(find-file next-name)))))
@@ -54,7 +55,8 @@
 	 (cached-name (wit-cache-timeline-lookup 'prev current-name))
 	 (prev-name (or cached-name (wit-command (format "prev %s" current-name)))))
     (if (string= "" prev-name)
-	(message "No more notes.")
+	(progn (ding)
+	       (message "No more notes."))
       (progn
 	(wit-cache-timeline prev-name current-name)
 	(find-file prev-name)))))
