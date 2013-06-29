@@ -1,0 +1,6 @@
+{% for n in notes %}
+<div>
+  <a href="{{ n.url }}">{{n.url}}</a>
+  <div>{{ n.body }}</div>
+</div>
+{% endfor %}
