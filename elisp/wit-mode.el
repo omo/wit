@@ -41,13 +41,6 @@
     map)
   "Minor mode keymap for WIP mode for the whole buffer.")
 
-(defun wit-setup ()
-  (interactive)
-  ;; http://www.emacswiki.org/emacs/AutoModeAlist
-  (add-to-list 'auto-mode-alist '("/t/.*\\.md\\'" . wit-mode))
-  (global-set-key [?\C-c ?w ?f] `wit-open-fresh)
-  (global-set-key [?\C-c ?w ?l] `wit-open-latest))
-
 ;; http://www.gnu.org/software/emacs/manual/html_node/elisp/Defining-Minor-Modes.html
 (define-minor-mode wit-mode
   "Toggle WIT mode"
@@ -55,3 +48,12 @@
   :lighter " WIT"
   :keymap wit-mode-map)
 
+(defun wit-setup ()
+  (interactive)
+  ;; http://www.emacswiki.org/emacs/AutoModeAlist
+  (add-to-list 'auto-mode-alist '("/t/.*\\.md\\'" . wit-mode))
+  (global-set-key [?\C-c ?w ?f] `wit-open-fresh)
+  (global-set-key [?\C-c ?w ?l] `wit-open-latest))
+(wit-setup)
+
+(provide 'wit-mode)
