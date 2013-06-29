@@ -5,9 +5,12 @@ require 'thor'
 
 module Wit
   class CLI < Thor
+
     desc "fresh [TITLE]", "Print a filename for fresh note."
+    option :boilerplate, :type => :boolean
     def fresh(title=nil)
       fresh = book.fresh_note_name(title)
+      fresh.to_note.write_boilerplate(title) if options[:boilerplate]
       puts fresh.filename
     end
 

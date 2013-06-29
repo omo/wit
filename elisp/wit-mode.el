@@ -31,7 +31,7 @@
 
 (defun wit-open-fresh (&optional title)
   (interactive "MNew Note:")
-  (wit-command-and-open (format "fresh \"%s\"" title)))
+  (wit-command-and-open (format "fresh --boilerplate \"%s\"" (or title "index"))))
 
 (defun wit-open-latest ()
   (interactive)

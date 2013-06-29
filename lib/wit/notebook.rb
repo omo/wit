@@ -3,6 +3,7 @@
 require 'redcarpet'
 require 'psych'
 require 'liquid'
+require 'erb'
 
 module Wit
   TYPES = [:md]
@@ -72,6 +73,21 @@ module Wit
       opts = { :autolink => true, :space_after_headers => true }
       md = Redcarpet::Markdown.new(Redcarpet::Render::HTML, opts)
       md.render(body_text)
+    end
+
+BOILERPLATE = ERB.new(<<EOF
+publish: false
+----
+<% if title %>
+# <%= title %>
+<% end %>
+EOF
+)
+
+    def write_boilerplate(title=nil)
+      raise "The file #{@name.filename} is already exist!" if exist?
+      content = BOILERPLATE.result(binding)
+      open(@name.filename, "w") { |f| f.write content }
     end
 
     private
