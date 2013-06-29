@@ -10,13 +10,24 @@
     (setq str (replace-match "" t t str)))
   str)
 
+(setq wit-timeline-hash (make-hash-table :test 'equal))
+
+(defun wit-cache-timeline (prev-name next-name)
+  (progn
+    (puthash (list 'prev next-name) prev-name wit-timeline-hash)
+    (puthash (list 'next prev-name) next-name wit-timeline-hash)))
+
+(defun wit-cache-timeline-lookup (type name)
+  (gethash (list type name) wit-timeline-hash))
+
 (defun wit-command (arg-str)
   (let ((command-str (format wit-command-name arg-str)))
-    (shell-command-to-string command-str)))
+    (wip-chomp (shell-command-to-string command-str))))
 
 (defun wit-command-and-open (arg-str)
-  (let ((filename (wip-chomp (wit-command arg-str))))
-    (find-file filename)))
+  (let ((filename (wit-command arg-str)))
+    (find-file filename)
+    filename))
 
 (defun wit-open-fresh (&optional title)
   (interactive "MNew Note:")
@@ -28,11 +39,29 @@
 
 (defun wit-open-next ()
   (interactive)
-  (wit-command-and-open (format "next %s" (buffer-file-name))))
+  (let* ((current-name (buffer-file-name))
+	 (cached-name (wit-cache-timeline-lookup 'next current-name))
+	 (next-name (or cached-name (wit-command (format "next %s" current-name)))))
+    (if (string= "" next-name)
+	(message "No more notes.")
+      (progn
+	(wit-cache-timeline current-name next-name)
+	(find-file next-name)))))
 
 (defun wit-open-prev ()
   (interactive)
-  (wit-command-and-open (format "prev %s" (buffer-file-name))))
+  (let* ((current-name (buffer-file-name))
+	 (cached-name (wit-cache-timeline-lookup 'prev current-name))
+	 (prev-name (or cached-name (wit-command (format "prev %s" current-name)))))
+    (if (string= "" prev-name)
+	(message "No more notes.")
+      (progn
+	(wit-cache-timeline prev-name current-name)
+	(find-file prev-name)))))
+
+(defun wit-kill-cache ()
+  (interactive)
+  (clrhash wit-timeline-hash))
 
 (defvar wit-mode-map
   (let ((map (make-sparse-keymap)))
