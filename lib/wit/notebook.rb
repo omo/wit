@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'fileutils'
 require 'redcarpet'
 require 'psych'
 require 'liquid'
@@ -92,6 +93,7 @@ EOF
     def write_boilerplate(title=nil)
       raise "The file #{@name.filename} is already exist!" if exist?
       content = BOILERPLATE.result(binding)
+      FileUtils.makedirs(File.dirname(@name.filename))
       open(@name.filename, "w") { |f| f.write content }
     end
 
