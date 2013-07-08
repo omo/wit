@@ -5,8 +5,8 @@ set :repository, "https://github.com/omo/wit.git"
 set :scm, :git
 
 # FIXME: should use a pretty domain name
-role :web, "ec2-50-19-127-155.compute-1.amazonaws.com"
-role :app, "ec2-50-19-127-155.compute-1.amazonaws.com"
+role :web, "wit.flakiness.es"
+role :app, "wit.flakiness.es"
 
 # http://stackoverflow.com/questions/7747759/how-do-i-set-the-shell-to-bash-for-run-in-capistrano
 default_run_options[:shell] = '/bin/bash --login'
