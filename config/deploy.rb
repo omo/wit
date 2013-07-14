@@ -19,4 +19,4 @@ set :use_sudo, false
 set :bundle_cmd, "bundle"
 set :user, "ubuntu"
 set :deploy_to, "/home/ubuntu/work/wit"
-set :scm_username, "omo"
+
