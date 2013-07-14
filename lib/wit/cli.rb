@@ -35,19 +35,16 @@ module Wit
       puts n ? n.filename : ""
     end
 
+    desc "sync", "Pull then push the note repository."
+    def sync
+      repo.sync
+    end
+
     private
 
-    def config
-      @config ||= Config.make(options[:config])
-    end
-
-    def book
-      @book ||= open_notebook
-    end
-
-    def open_notebook
-      Wit::Repo.new(config.repopath).thinking_book
-    end
+    def config() @config ||= Config.make(options[:config]); end
+    def book() @book ||= repo.thinking_book; end
+    def repo() @repo ||= Wit::Repo.new(config.repopath, config.repourl); end
   end
 end
 

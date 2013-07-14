@@ -28,5 +28,6 @@ module Wit
     end
 
     def repopath() options[:repopath]; end
+    def repourl() options[:repourl]; end
   end
 end
