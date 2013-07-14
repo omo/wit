@@ -94,13 +94,13 @@ EOF
       raise "The file #{@name.filename} is already exist!" if exist?
       content = BOILERPLATE.result(binding)
       FileUtils.makedirs(File.dirname(@name.filename))
-      open(@name.filename, "w") { |f| f.write content } unless File.exist?(@name.filename)
+      open(@name.filename, "w:UTF-8") { |f| f.write content } unless File.exist?(@name.filename)
     end
 
     private
 
     def data
-      @data ||= open(@name.filename).read
+      @data ||= open(@name.filename, "r:UTF-8").read
     end
 
     def body_and_head_text
