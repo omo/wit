@@ -6,16 +6,12 @@ require 'liquid'
 
 module Wit
   class Web < Sinatra::Base
-    def self.repopath
-      File.join(File.dirname(__FILE__), "../../t")
-    end
-
     def published_book
-      @@published_book ||= Wit::Notebook.new(self.class.repopath)
+      @@published_book ||= Wit::Notebook.new(settings.repopath)
     end
 
     def thinking_book
-      @@thinking_book ||= Wit::Notebook.new(self.class.repopath, thinking: true)
+      @@thinking_book ||= Wit::Notebook.new(settings.repopath, thinking: true)
     end
 
     get '/latest' do

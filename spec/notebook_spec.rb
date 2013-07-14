@@ -32,7 +32,7 @@ describe Wit::Notebook do
 
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./t", thinking: true)
+      @book = Wit::Notebook.new("./testrepo/t", thinking: true)
     end
 
     it "lists latest notebook names" do
@@ -49,7 +49,7 @@ end
 describe Wit::Name do
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./t")
+      @book = Wit::Notebook.new("./testrepo/t")
     end
 
     it "responts exist?" do
