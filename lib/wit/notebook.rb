@@ -94,7 +94,7 @@ EOF
       raise "The file #{@name.filename} is already exist!" if exist?
       content = BOILERPLATE.result(binding)
       FileUtils.makedirs(File.dirname(@name.filename))
-      open(@name.filename, "w") { |f| f.write content }
+      open(@name.filename, "w") { |f| f.write content } unless File.exist?(@name.filename)
     end
 
     private

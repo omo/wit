@@ -33,8 +33,12 @@
 (defun wit-open-fresh (&optional title)
   (interactive "MNew Note:")
   (progn
-    (wit-command-and-open (format "fresh --boilerplate \"%s\"" (or title "index")))
+    (wit-command-and-open (format "fresh --boilerplate \"%s\"" (or title "")))
     (end-of-buffer)))
+
+(defun wit-open-fresh-notitle ()
+  (interactive)
+  (wit-open-fresh nil))
 
 (defun wit-open-latest ()
   (interactive)
@@ -86,7 +90,8 @@
   (interactive)
   ;; http://www.emacswiki.org/emacs/AutoModeAlist
   (add-to-list 'auto-mode-alist '("/t/.*\\.md\\'" . wit-mode))
-  (global-set-key [?\C-c ?w ?f] `wit-open-fresh)
+  (global-set-key [?\C-c ?w ?F] `wit-open-fresh)
+  (global-set-key [?\C-c ?w ?f] `wit-open-fresh-notitle)
   (global-set-key [?\C-c ?w ?l] `wit-open-latest))
 (wit-setup)
 

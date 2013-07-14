@@ -38,7 +38,8 @@ module Wit
     desc "fresh [TITLE]", "Print a filename for fresh note."
     option :boilerplate, :type => :boolean
     def fresh(title=nil)
-      fresh = book.fresh_note_name(title)
+      title = nil if title.empty? # This normalization is needed since caller invoke this through shell with quotes.
+      fresh = book.fresh_note_name(title || "index")
       fresh.to_note.write_boilerplate(title) if options[:boilerplate]
       puts fresh.filename
     end
