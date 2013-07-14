@@ -7,10 +7,12 @@ require 'thor'
 module Wit
 
   class CLI < Thor
+    class_option :config, :type => :string, :default => File.expand_path("~/.wit")
+
     desc "fresh [TITLE]", "Print a filename for fresh note."
     option :boilerplate, :type => :boolean
     def fresh(title=nil)
-      title = nil if title.empty? # This normalization is needed since caller invoke this through shell with quotes.
+      title = nil if title && title.empty? # This normalization is needed since caller invoke this through shell with quotes.
       fresh = book.fresh_note_name(title || "index")
       fresh.to_note.write_boilerplate(title) if options[:boilerplate]
       puts fresh.filename
@@ -36,7 +38,7 @@ module Wit
     private
 
     def config
-      @config ||= Config.make(File.expand_path("~/.wit"))
+      @config ||= Config.make(options[:config])
     end
 
     def book
