@@ -111,6 +111,11 @@ describe Wit::Note do
       html = Nokogiri::HTML(@hello_note.body)
       expect(html.css('h1')[0].content).to eq("The Title")
     end
+
+    it "should have title" do
+      expect(@hello_note.title).to eq("The Title")
+    end
+
   end
 end
 

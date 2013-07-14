@@ -45,7 +45,8 @@ module Wit
       else
         name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle], nil, :md)
       end
-      liquid :note, layout: :layout, locals: { note: book.to_note(name) }
+      note = book.to_note(name)
+      liquid :note, layout: :layout, locals: { note: note, title: note.title }
     end
 
     error Wit::Forbidden, Wit::NotFound do

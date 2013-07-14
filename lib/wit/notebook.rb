@@ -57,6 +57,20 @@ module Wit
     def exist?() File.exist?(@filename); end
   end
 
+  class NoteRenderer < Redcarpet::Render::HTML
+    attr_reader :title
+
+    def initialize
+      super
+      @title = nil
+    end
+
+    def header(title, level, &block)
+      @title ||= title
+      "<h#{level}>#{title}</h#{level}" # Mimics redcarpet/html.c:rndr_header()
+    end
+  end
+
   # FIXME: should have its own file
   class Note
     liquid_methods :body, :url
@@ -65,6 +79,7 @@ module Wit
     def initialize(name)
       # FIXME: ensure if it is header-prepended markdown
       @name = name
+      @body = nil
     end
 
     def exist?() name.exist?; end
@@ -76,9 +91,13 @@ module Wit
     end
 
     def body
-      opts = { :autolink => true, :space_after_headers => true }
-      md = Redcarpet::Markdown.new(Redcarpet::Render::HTML, opts)
-      md.render(body_text)
+      render
+      @body
+    end
+
+    def title
+      render
+      @title
     end
 
 BOILERPLATE = ERB.new(<<EOF
@@ -98,6 +117,15 @@ EOF
     end
 
     private
+
+    def render
+      return if @body
+      opts = { :autolink => true, :space_after_headers => true }
+      renderer = NoteRenderer.new
+      md = Redcarpet::Markdown.new(renderer, opts)
+      @body = md.render(body_text)
+      @title = renderer.title
+    end
 
     def data
       @data ||= open(@name.filename, "r:UTF-8").read
