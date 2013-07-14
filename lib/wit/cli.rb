@@ -1,3 +1,4 @@
+# encoding: utf-8
 
 require 'wit' # This is ugly but inevitable in this case.
               # Consider that cli.rb isn't part of wit library. 

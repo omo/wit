@@ -1,14 +1,14 @@
 # encoding: utf-8
 
 require 'sinatra/base'
-require 'wit/repo'
 require 'liquid'
+require 'wit/notebook'
+require 'wit/repo'
 
 module Wit
   class Web < Sinatra::Base
-
     def repo
-      @@repo = Wit::Repo.new(settings.repopath)
+      @@repo ||= Wit::Repo.new(settings.repopath)
     end
 
     def published_book
@@ -27,6 +27,7 @@ module Wit
     end
 
     get '/:yyyy/:mm/:dd/:hhmm-:title' do
+      p settings.repopath
       book = published_book
       name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmm], params[:title], :md)
       liquid :note, layout: :layout, locals: { note: book.to_note(name) }

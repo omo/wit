@@ -133,6 +133,7 @@ EOF
     end
 
     def to_note(name)
+      p name
       raise NotFound unless name.exist?
       note = name.to_note
       raise Forbidden unless note.published? or thinking?
