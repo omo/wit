@@ -21,7 +21,7 @@ module Wit
     def fetch_or_clone
       if File.exist?(@path)
         raise unless File.directory?(@path)
-        system("git fetch origin")
+        git_in_repo("fetch origin")
         raise unless 0 == $?
       else
         system("git clone #{@remote} #{@path}")
@@ -29,32 +29,37 @@ module Wit
     end
 
     def modified?
-      !`git status --porcelain`.empty?
+      Dir.chdir(@path) do 
+        !`git status --porcelain`.empty?
+      end
     end
 
     def commit
       message = "Synced at #{Time.now.to_s}"
-      system("git add .")
-      system("git commit -a -m \"#{message}\"")
+      git_in_repo("add .")
+      git_in_repo("commit -a -m \"#{message}\"")
     end
 
     def push
-      system("git push origin master")
+      git_in_repo("push origin master")
     end
 
     def merge
-      system("git merge origin/master")
+      git_in_repo("merge origin/master")
+    end
+
+    def git_in_repo(subcommand)
+      Dir.chdir(@path) do 
+        system("git " + subcommand)
+      end
     end
 
     def sync
-      FileUtils.makedirs(@path)
-      Dir.chdir(@path) do 
-        fetch_or_clone
-        m = modified?
-        commit if m
-        merge
-        push if m
-      end
+      fetch_or_clone
+      m = modified?
+      commit if m
+      merge
+      push if m
     end
   end
 end
