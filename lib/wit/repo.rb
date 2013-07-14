@@ -11,11 +11,11 @@ module Wit
     end
 
     def thinking_book
-      @thinking_book ||= Notebook.new(File.join(@path, "t"), thinking: true)
+      @thinking_book ||= Notebook.new(File.join(@path, "n"), thinking: true)
     end
 
     def published_book
-      @publisehd_book ||= Notebook.new(File.join(@path, "t"))
+      @publisehd_book ||= Notebook.new(File.join(@path, "n"))
     end
 
     def fetch_or_clone

@@ -68,6 +68,12 @@
 	(wit-cache-timeline prev-name current-name)
 	(find-file prev-name)))))
 
+(defun wit-sync ()
+  (interactive)
+  (message "Syncing...")
+  (wit-command "sync")
+  (message "...done."))
+
 (defun wit-kill-cache ()
   (interactive)
   (clrhash wit-timeline-hash))
@@ -90,6 +96,7 @@
   (interactive)
   ;; http://www.emacswiki.org/emacs/AutoModeAlist
   (add-to-list 'auto-mode-alist '("/t/.*\\.md\\'" . wit-mode))
+  (global-set-key [?\C-c ?w ?s] `wit-sync)
   (global-set-key [?\C-c ?w ?F] `wit-open-fresh)
   (global-set-key [?\C-c ?w ?f] `wit-open-fresh-notitle)
   (global-set-key [?\C-c ?w ?l] `wit-open-latest))
