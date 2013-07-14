@@ -47,7 +47,7 @@ module Wit
     end
 
     def sync
-      FileUtils..makedirs(@path)
+      FileUtils.makedirs(@path)
       Dir.chdir(@path) do 
         fetch_or_clone
         m = modified?
