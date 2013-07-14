@@ -9,6 +9,6 @@ end
 
 after "deploy:restart" do
   run "#{sudo} restart wit-puma"
-  run "#{sudo} /etc/init.d/nginx start"
-  run "curl -F input=input http://wit.frakiness.es/sync"
+  run "#{sudo} /etc/init.d/nginx restart"
+  #run "curl -F input=input http://wit.flakiness.es/sync > /dev/null"
 end

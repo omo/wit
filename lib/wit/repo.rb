@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'wit/notebook'
+require 'fileutils'
 
 module Wit
   class Repo
@@ -46,6 +47,7 @@ module Wit
     end
 
     def sync
+      FileUtils..makedirs(@path)
       Dir.chdir(@path) do 
         fetch_or_clone
         m = modified?
