@@ -127,7 +127,6 @@ EOF
       raise NotFound unless hhmm  =~ /\d\d\d\d/
       raise NotFound unless title =~ /(\w|\d|\-)+/ or title == nil
       raise NotFound unless TYPES.include?(type)
-      
       title = "index" unless title
       Name.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
     end

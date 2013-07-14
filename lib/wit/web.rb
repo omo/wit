@@ -35,15 +35,16 @@ module Wit
       "done"
     end
 
-    get '/:yyyy/:mm/:dd/:hhmm-:title' do
+    get '/:yyyy/:mm/:dd/:hhmmtitle' do
       book = published_book
-      name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmm], params[:title], :md)
-      liquid :note, layout: :layout, locals: { note: book.to_note(name) }
-    end
-
-    get '/:yyyy/:mm/:dd/:hhmm' do
-      book = published_book
-      name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmm], nil, :md)
+      m = /(\d+)\-(.*)/.match(params[:hhmmtitle])
+      if m
+        hhmm  = m[1]
+        title = m[2]
+        name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], hhmm, title, :md)
+      else
+        name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle], nil, :md)
+      end
       liquid :note, layout: :layout, locals: { note: book.to_note(name) }
     end
 
