@@ -27,7 +27,6 @@ module Wit
     end
 
     get '/:yyyy/:mm/:dd/:hhmm-:title' do
-      p settings.repopath
       book = published_book
       name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmm], params[:title], :md)
       liquid :note, layout: :layout, locals: { note: book.to_note(name) }
