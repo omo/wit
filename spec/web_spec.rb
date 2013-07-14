@@ -1,19 +1,27 @@
 
-require File.join(File.dirname(__FILE__), "../web.rb")
+#require File.join(File.dirname(__FILE__), "../web.rb")
 require 'rspec'
 require 'rack/test'
+require 'wit/web'
 
 module WitWebTesting
   # From http://www.sinatrarb.com/testing.html
   include Rack::Test::Methods
-  def app() Sinatra::Application; end
+
+  class T < Wit::Web
+    #def self.repopath
+    #end
+  end
+  def app() T; end
 end
 
-enable :raise_errors
-set :environment, :test
+Wit::Web.enable(:raise_errors)
+Wit::Web.set(:environment, :test)
 
 describe "THe web app" do
   include WitWebTesting
+  #app.enable(:raise_errors)
+  #app.set(:environment, :test)
 
   it "has index apge" do
     get "/latest"

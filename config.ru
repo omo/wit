@@ -3,5 +3,5 @@
 
 $LOAD_PATH << "./lib"
 
-require "./web"
-run Sinatra::Application
+require 'wit/web'
+run Wit::Web
