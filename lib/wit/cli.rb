@@ -4,8 +4,36 @@ require 'wit' # This is ugly but inevitable in this case.
 require 'thor'
 
 module Wit
-  class CLI < Thor
 
+  # FIXME: Should be in its own file
+  class Config
+    attr_reader :options
+
+    def initialize
+      @options = {}
+    end
+
+    def load(path)
+      File.open(path) do |f|
+        instance_eval(f.read)
+      end
+    end
+
+    def self.make(path)
+      created = self.new
+      if true
+        created.load(path) 
+      else
+        # TODO: Write default
+      end
+
+      created
+    end
+
+    def repopath() options[:repopath]; end
+  end
+
+  class CLI < Thor
     desc "fresh [TITLE]", "Print a filename for fresh note."
     option :boilerplate, :type => :boolean
     def fresh(title=nil)
@@ -33,14 +61,16 @@ module Wit
 
     private
 
+    def config
+      @config ||= Config.make(File.expand_path("~/.wit"))
+    end
+
     def book
       @book ||= open_notebook
     end
 
     def open_notebook
-      # FIXME: should be configurable
-      root = File.realpath(File.join(File.dirname(__FILE__), "../../t"))
-      Wit::Notebook.new(root, thinking: true)
+      Wit::Repo.new(config.repopath).thinking_book
     end
   end
 end

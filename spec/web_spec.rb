@@ -9,7 +9,7 @@ module WitWebTesting
   include Rack::Test::Methods
 
   class T < Wit::Web
-    set(:repopath, File.join(File.dirname(__FILE__), "../testrepo/t"))
+    set(:repopath, File.join(File.dirname(__FILE__), "../testrepo"))
   end
 
   def app() T; end

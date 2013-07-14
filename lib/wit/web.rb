@@ -1,17 +1,22 @@
 # encoding: utf-8
 
 require 'sinatra/base'
-require 'wit/notebook'
+require 'wit/repo'
 require 'liquid'
 
 module Wit
   class Web < Sinatra::Base
+
+    def repo
+      @@repo = Wit::Repo.new(settings.repopath)
+    end
+
     def published_book
-      @@published_book ||= Wit::Notebook.new(settings.repopath)
+      @@published_book ||= repo.published_book
     end
 
     def thinking_book
-      @@thinking_book ||= Wit::Notebook.new(settings.repopath, thinking: true)
+      @@thinking_book ||= repo.thinking_book
     end
 
     get '/latest' do
