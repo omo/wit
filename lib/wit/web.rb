@@ -8,7 +8,7 @@ require 'wit/repo'
 module Wit
   class Web < Sinatra::Base
     def repo
-      @@repo ||= Wit::Repo.new(settings.repopath)
+      @@repo ||= Wit::Repo.new(settings.repopath, settings.repourl)
     end
 
     def published_book
@@ -24,6 +24,15 @@ module Wit
         notes = thinking_book.latest_note_names.take(10).map { |name| name.to_note }
         liquid :latest, layout: :layout, locals: { notes: notes }
       end
+    end
+
+    get '/sync' do
+      liquid :sync, layout: :layout
+    end
+
+    post '/sync' do
+      repo.sync
+      "done"
     end
 
     get '/:yyyy/:mm/:dd/:hhmm-:title' do

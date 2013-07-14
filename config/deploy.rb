@@ -1,6 +1,6 @@
 require 'bundler/capistrano'
 
-set :application, "set your application name here"
+set :application, "Wit"
 set :repository, "https://github.com/omo/wit.git"
 set :scm, :git
 

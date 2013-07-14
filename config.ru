@@ -9,6 +9,7 @@ require 'wit/config'
 class RackupWeb < Wit::Web
   config = Wit::Config.make("./config/witweb.conf")
   set(:repopath, File.expand_path(config.repopath))
+  set(:repourl, File.expand_path(config.repourl))
 end 
 
 run RackupWeb

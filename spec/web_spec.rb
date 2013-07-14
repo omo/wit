@@ -10,6 +10,7 @@ module WitWebTesting
 
   class T < Wit::Web
     set(:repopath, File.join(File.dirname(__FILE__), "../testrepo"))
+    set(:repourl, "https://github.com/omo/whatever")
   end
 
   def app() T; end
