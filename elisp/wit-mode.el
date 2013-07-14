@@ -95,7 +95,7 @@
 (defun wit-setup ()
   (interactive)
   ;; http://www.emacswiki.org/emacs/AutoModeAlist
-  (add-to-list 'auto-mode-alist '("/t/.*\\.md\\'" . wit-mode))
+  (add-to-list 'auto-mode-alist '("/n/.*\\.md\\'" . wit-mode))
   (global-set-key [?\C-c ?w ?s] `wit-sync)
   (global-set-key [?\C-c ?w ?F] `wit-open-fresh)
   (global-set-key [?\C-c ?w ?f] `wit-open-fresh-notitle)
