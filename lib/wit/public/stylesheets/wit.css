@@ -3,43 +3,70 @@
 html, body {
   margin: 0px;
   padding: 0px;
+  font-family: Verdana, serif;
+}
+
+h1 {
+  font-family: "Alef", serif;
 }
 
 .note {
-  font-family: Verdana, serif;
   width: 80%;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 18pt;
+  padding: 2em 0em 1em 0em;
+  font-size: 16pt;
   line-height: 170%;
 }
 
 .note h1 {
-  font-family: "Alef", serif;
-  padding : 0.5em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  background-color: #eee;
-  font-size: 24pt;
-  border-styl
+  padding : 0em;
+  margin: 1em 0em 1em 0em;
+  border-style: normal;
   border-radius: 5px;
+  font-size: 28pt;
 }
 
 h1#identity {
   margin: 0px;
   position: absolute;
   top: 0px;
-  right: 100px;
+  right: 0px;
 
-  color: white;
-  background-color: #aad;
-  border-radius: 0 0 10px 10px;
-
-  font-family: "Cinzel", serif;
+  font-family: "Fauna One", serif;
   font-size: 12px;
   font-weight: normal;
   padding: 0.5em 1em 0.5em 1em;
-  
+  color: #fff;
+  background-color: #ccc;
+}
 
+h1#identity a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cover {
+  padding : 0.0em;
+  margin: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18pt;
+  width: 600px;
+}
+.cover h1 {
+  margin: 0em;
+  border-style: normal;
+  font-size: 28pt;
+  padding : 0em;
+}
+
+.cover h2 {
+  font-family: "Alef", serif;
+  font-weight: normal;
+  padding : 0em;
+  margin: 0em;
+  color: #888;
+  font-size: 22pt;
 }

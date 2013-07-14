@@ -19,6 +19,12 @@ module Wit
       @@thinking_book ||= repo.thinking_book
     end
 
+    get '/' do
+      note = published_book.cover
+      p note.body
+      liquid :cover, layout: nil, locals: { note: note, title: note.title }
+    end
+
     get '/latest' do
       if settings.environment == :test
         notes = thinking_book.latest_note_names.take(10).map { |name| name.to_note }

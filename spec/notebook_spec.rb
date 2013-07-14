@@ -27,7 +27,6 @@ describe Wit::Notebook do
       name = @book.fresh_note_name("This is title.")
       expect(File.basename(name.filename)).to end_with("this-is-title.md")
     end
-
   end
 
   context do
@@ -42,8 +41,12 @@ describe Wit::Notebook do
         expect(File.exist?(n.filename)).to be_true
       end
     end
-  end
 
+    it "has a cover" do
+      name = @book.covername
+      expect(name.exist?).to be_true
+    end
+  end
 end
 
 describe Wit::Name do

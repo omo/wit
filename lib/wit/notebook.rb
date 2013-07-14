@@ -67,7 +67,7 @@ module Wit
 
     def header(title, level, &block)
       @title ||= title
-      "<h#{level}>#{title}</h#{level}" # Mimics redcarpet/html.c:rndr_header()
+      "<h#{level}>#{title}</h#{level}>" # Mimics redcarpet/html.c:rndr_header()
     end
   end
 
@@ -165,6 +165,9 @@ EOF
       raise Forbidden unless note.published? or thinking?
       return note
     end
+
+    def covername() Name.new(File.join(@root, "cover.md")); end
+    def cover() to_note(covername); end
 
     def latest_note_names
       raise unless thinking?

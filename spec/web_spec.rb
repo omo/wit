@@ -13,20 +13,25 @@ module WitWebTesting
     set(:repourl, "https://github.com/omo/whatever")
   end
 
+  T.enable(:raise_errors)
+  T.set(:environment, :test)
+
   def app() T; end
 end
 
-Wit::Web.enable(:raise_errors)
-Wit::Web.set(:environment, :test)
-
-describe "THe web app" do
+describe "The web app" do
   include WitWebTesting
-  #app.enable(:raise_errors)
-  #app.set(:environment, :test)
 
-  it "has index apge" do
+  it "has latest page" do
     get "/latest"
     last_response.should be_ok
+  end
+
+  it "has cover page" do
+    get "/"
+    last_response.should be_ok
+    html = Nokogiri::HTML(last_response.body)
+    expect(html.css("h2")[0].content).to include("The Cover")
   end
 end
 
