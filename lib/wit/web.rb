@@ -21,7 +21,6 @@ module Wit
 
     get '/' do
       note = published_book.cover
-      p note.body
       liquid :cover, layout: nil, locals: { note: note, title: note.title }
     end
 

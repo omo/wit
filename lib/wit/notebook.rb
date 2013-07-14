@@ -132,7 +132,8 @@ EOF
     end
 
     def body_and_head_text
-      first, second = data.split("----")
+      m = /^(.+?)\-\-\-\-(.+)/m.match(data)
+      first, second = m[1], m[2]
       return { :head => first, :body => second } if first and second
       return { :head => nil,   :body => first  }
     end

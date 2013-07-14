@@ -55,6 +55,13 @@ describe "The article note" do
     expect(html.css("h2")[0].content).to include("How Are You?")
   end
 
+  it "Should handle more than one splitter" do
+    get "/2013/06/01/2345-split"
+    last_response.should be_ok
+    html = Nokogiri::HTML(last_response.body)
+    expect(html.to_s).to include("This should be visible.")
+  end
+
   it "interpret missing title as 'index'" do
     get "/2012/01/02/2345"
     last_response.should be_ok
