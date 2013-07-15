@@ -1,15 +1,33 @@
 # encoding: utf-8
 
+require 'rack/urlmap'
 require 'sinatra/base'
 require 'liquid'
 require 'wit/notebook'
 require 'wit/repo'
 
 module Wit
-  class Web < Sinatra::Base
+  module RepoOwnable
     def repo
       @@repo ||= Wit::Repo.new(settings.repopath, settings.repourl)
     end
+  end
+
+  class SynWeb < Sinatra::Base
+    include RepoOwnable
+
+    get '/' do
+      liquid :sync, layout: :layout
+    end
+
+    post '/' do
+      repo.sync
+      "done"
+    end
+  end
+
+  class BookWeb < Sinatra::Base
+    include RepoOwnable
 
     def published_book
       @@published_book ||= repo.published_book
@@ -31,15 +49,6 @@ module Wit
       end
     end
 
-    get '/sync' do
-      liquid :sync, layout: :layout
-    end
-
-    post '/sync' do
-      repo.sync
-      "done"
-    end
-
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
       book = published_book
       m = /(\d+)\-(.*)/.match(params[:hhmmtitle])
@@ -58,4 +67,16 @@ module Wit
       halt 404
     end
   end
+
+  class Web < Rack::URLMap
+    APPS = { "/" => BookWeb, "/sync" => SynWeb }
+
+    def self.set(key, val) APPS.values.each { |app| app.set(key, val) }; end
+    def self.enable(key) APPS.values.each { |app| app.enable(key) }; end
+
+    def initialize
+      super(APPS)
+    end
+  end
+
 end

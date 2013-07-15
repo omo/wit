@@ -11,12 +11,12 @@ module WitWebTesting
   class T < Wit::Web
     set(:repopath, File.join(File.dirname(__FILE__), "../testrepo"))
     set(:repourl, "https://github.com/omo/whatever")
+    set(:environment, :test)
+    enable(:raise_errors)
   end
 
-  T.enable(:raise_errors)
-  T.set(:environment, :test)
 
-  def app() T; end
+  def app() @app ||= T.new; end
 end
 
 describe "The web app" do
@@ -85,4 +85,14 @@ describe "The article note" do
   end
 
   # XXX: Should test not found case
+end
+
+describe "The sync" do
+  include WitWebTesting
+
+  it "shoud be served" do
+    get "/sync"
+    html = Nokogiri::HTML(last_response.body)
+    expect(html.css("input").size).to eq(1)
+  end
 end

@@ -12,4 +12,4 @@ class RackupWeb < Wit::Web
   set(:repourl, File.expand_path(config.repourl))
 end 
 
-run RackupWeb
+run RackupWeb.new
