@@ -14,7 +14,7 @@ module Wit
 
     get '/' do
       note = book.cover
-      liquid :cover, layout: nil, locals: { note: note, months: book.months, title: note.title }
+      liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix }
     end
 
     get '/:yyyy/:mm' do
@@ -25,7 +25,7 @@ module Wit
         a
       end
 
-      liquid :month, layout: :layout, locals: { month: m, notes: notes_per_day, prefix: url_prefix }
+      liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix }
     end
 
     get '/:yyyy/:mm/:dd/:hhmmtitle' do

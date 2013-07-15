@@ -65,14 +65,16 @@ h1#identity a {
 }
 
 .cover {
-  padding : 0.0em;
-  margin: 2em auto 2em auto;;
+  max-width: 800px;
+  padding: 2em 0em 1em 0em;
+  margin: 0em auto 0em auto;
   font-size: 18pt;
-  width: 600px;
 }
 .cover h1 {
-  margin: 0em;
+  /* margin: 0em; */
+  padding : 0em;
   border-style: normal;
+
   font-size: 28pt;
   padding : 0em;
 }
@@ -112,11 +114,16 @@ h1#identity a {
   margin: 2em auto 2em auto;;
 }
 
+hr.footer {
+  display: hidden;
+  height: 2em;
+  border-style: none;
+}
+
 .month {
   width: 80%;
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0em auto 0em auto;
   padding: 2em 0em 1em 0em;
   font-size: 16pt;
 }
