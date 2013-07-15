@@ -8,6 +8,7 @@ GEM
       net-ssh (>= 2.0.14)
       net-ssh-gateway (>= 1.1.0)
     diff-lcs (1.2.4)
+    encrypted_cookie (0.0.4)
     ffi (1.9.0)
     highline (1.6.19)
     liquid (2.5.0)
@@ -62,6 +63,7 @@ PLATFORMS
 
 DEPENDENCIES
   capistrano
+  encrypted_cookie
   liquid
   nokogiri
   psych

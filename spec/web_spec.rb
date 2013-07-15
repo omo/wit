@@ -1,5 +1,4 @@
 
-#require File.join(File.dirname(__FILE__), "../web.rb")
 require 'rspec'
 require 'rack/test'
 require 'wit/web'
@@ -11,10 +10,13 @@ module WitWebTesting
   class T < Wit::Web
     set(:repopath, File.join(File.dirname(__FILE__), "../testrepo"))
     set(:repourl, "https://github.com/omo/whatever")
+    set(:github_client_id, "testcid")
+    set(:github_client_secret, "testsecret")
+    set(:github_login, "octocat")
     set(:environment, :test)
+    enable(:sessions) # Real session is enabled in config.ru
     enable(:raise_errors)
   end
-
 
   def app() @app ||= T.new; end
 end
@@ -46,7 +48,7 @@ describe "The article note" do
     last_response.should be_ok
     html = Nokogiri::HTML(last_response.body)
     expect(html.css("h2")[0].content).to include("This is title of example note")
-  end
+end
 
   it "accepts hyphen in the title" do
     get "/2013/06/01/1234-how-are-you"
@@ -94,5 +96,13 @@ describe "The sync" do
     get "/sync"
     html = Nokogiri::HTML(last_response.body)
     expect(html.css("input").size).to eq(1)
+  end
+end
+
+describe "The Auth" do
+  include WitWebTesting
+  it "should handle auth callback" do
+    get "/~/authback?code=testcode&from=http%3A%2F%2Flocalhost%3A9292%2F~%2F2013%2F07%2F14%2F2235-webhook"
+    expect(last_response.location).to eq("http://localhost:9292/~/2013/07/14/2235-webhook")
   end
 end

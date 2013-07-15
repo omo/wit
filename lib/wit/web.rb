@@ -1,5 +1,6 @@
 # encoding: utf-8
 
+require 'encrypted_cookie'
 require 'rack/urlmap'
 require 'wit/web/helpers'
 require 'wit/web/sync'

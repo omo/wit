@@ -27,7 +27,12 @@ module Wit
       created
     end
 
+    # FIXME: Could be concise
     def repopath() options[:repopath]; end
     def repourl() options[:repourl]; end
+    def cookie_secret() options[:cookie_secret]; end
+    def github_client_id() options[:github_client_id]; end
+    def github_client_secret() options[:github_client_secret]; end
+    def github_login() options[:github_login]; end
   end
 end
