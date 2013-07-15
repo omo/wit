@@ -25,6 +25,8 @@ module Wit
         a
       end
 
+      notes_per_day.each { |k,v| v.sort! { |x, y| x.url <=> y.url } }
+
       liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix }
     end
 
