@@ -20,12 +20,20 @@ h1 {
   line-height: 170%;
 }
 
-.note h1 {
+.note h1, .note h2 {
   padding : 0em;
   margin: 1em 0em 1em 0em;
-  border-style: normal;
-  border-radius: 5px;
-  font-size: 28pt;
+}
+
+.note h1 { font-size: 28pt; }
+.note h2 { font-size: 20pt; }
+
+
+.note pre {
+  font-family: monospace;
+  padding: 1em 2em 1em 2em;
+  font-size: smaller;
+  background-color: #eee;
 }
 
 h1#identity {
