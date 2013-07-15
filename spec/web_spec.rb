@@ -25,6 +25,7 @@ describe "The web app" do
   include WitWebTesting
 
   it "has latest page" do
+    app.enable(:disable_auth)
     get "/~/latest"
     last_response.should be_ok
   end
@@ -93,6 +94,7 @@ describe "The sync" do
   include WitWebTesting
 
   it "shoud be served" do
+    app.enable(:disable_auth)
     get "/sync"
     html = Nokogiri::HTML(last_response.body)
     expect(html.css("input").size).to eq(1)

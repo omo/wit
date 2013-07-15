@@ -96,7 +96,7 @@ module Wit
 
     get '/*' do
       # FIXME: fix the test side to make this less error-prone.
-      return Rack::Cascade::NotFound if settings.environment == :test && request.path_info == "/latest" 
+      return Rack::Cascade::NotFound if settings.disable_auth
 
       case authorize(request, session)
       when :needs_authentication

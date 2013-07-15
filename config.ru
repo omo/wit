@@ -14,6 +14,9 @@ class RackupWeb < Wit::Web
   [:cookie_secret, :github_client_id, :github_client_secret, :github_login].each do |key|
     set(key, CONFIG.send(key))
   end
+
+  # For debug.
+  #set(:disable_auth, true) if ENV["RACK_ENV"] == "development"
 end
 
 use(Rack::Session::EncryptedCookie,

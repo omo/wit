@@ -14,10 +14,13 @@ module Wit
     APPS = {
       "/" => PublishedBookWeb,
       "/~" => Wit::make_authed_class(ThinkingBookWeb).new,
-      "/sync" => SyncWeb
+      "/sync" => Wit::make_authed_class(SyncWeb).new
     }
 
     def self.each_app(&block) APPS.values.each(&block); end
     def initialize() super(APPS); end
+
+    # App-specific continuation.
+    set(:disable_auth, false)
   end
 end
