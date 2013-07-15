@@ -88,7 +88,7 @@ module Wit
       # FIXME: Ask github here.
       helper = auth_helper_class.new(settings)
       who, token = helper.ask_who(code)
-      halt 403, "Invalid User #{who}" if who != login
+      halt 403, "Sorry #{who}, but you're not me." if who != login
       session[:github_login] = who
       session[:github_token] = token
       redirect to(from)
