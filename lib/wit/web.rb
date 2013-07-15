@@ -1,15 +1,22 @@
 # encoding: utf-8
 
 require 'rack/urlmap'
+require 'wit/web/helpers'
 require 'wit/web/sync'
 require 'wit/web/book'
+require 'wit/web/auth'
 
 module Wit
   class Web < Rack::URLMap
-    APPS = { "/" => PublishedBookWeb, "/~" => ThinkingBookWeb, "/sync" => SynWeb }
+    include SettingComposable
 
-    def self.set(key, val) APPS.values.each { |app| app.set(key, val) }; end
-    def self.enable(key) APPS.values.each { |app| app.enable(key) }; end
+    APPS = {
+      "/" => PublishedBookWeb,
+      "/~" => Wit::make_authed_class(ThinkingBookWeb).new,
+      "/sync" => SyncWeb
+    }
+
+    def self.each_app(&block) APPS.values.each(&block); end
     def initialize() super(APPS); end
   end
 end

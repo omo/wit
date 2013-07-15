@@ -5,7 +5,7 @@ require 'wit/repo'
 require 'wit/web/helpers'
 
 module Wit
-  class SynWeb < Sinatra::Base
+  class SyncWeb < Sinatra::Base
     include RepoOwnable
 
     get '/' do
