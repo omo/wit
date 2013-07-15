@@ -135,11 +135,16 @@ module Wit
 
   def self.make_authed_class(base)
     Class.new(Rack::Cascade) do
-      @@base_class = base
       include SettingComposable
+      self.class_variable_set(:@@base_class, base)
 
-      def self.each_app(&block) [AuthWeb, @@base_class].each(&block); end
-      def initialize() super([AuthWeb, @@base_class]); end
+      def self.each_app(&block)
+        [AuthWeb, self.class_variable_get(:@@base_class)].each(&block);
+      end
+
+      def initialize()
+        super([AuthWeb, self.class.class_variable_get(:@@base_class)])
+      end
     end
   end
 end

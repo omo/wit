@@ -25,7 +25,7 @@ module Wit
 
   # FIXME: should have its own file
   class Note
-    liquid_methods :body, :url
+    liquid_methods :body, :url, :title, :title_or_untitled, :last_digits
     attr_reader :name
 
     def initialize(name)
@@ -50,6 +50,19 @@ module Wit
     def title
       render
       @title
+    end
+
+    def title_or_untitled
+      title or "(Untitled)"
+    end
+
+    def last_digits
+      last = name.components.digits.last
+      last[0 ... 2] + ":" + last[2 ... 4]
+    end
+
+    def digits
+      name.components.digits
     end
 
 BOILERPLATE = ERB.new(<<EOF

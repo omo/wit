@@ -1,0 +1,16 @@
+<div class="month">
+<h1>{{month.month_abbrev}}, {{month.yyyy}}</h1>
+<ul class="note-day-list">
+{% for dn in notes %}
+  <li class="note-day">{{ dn[0] }}</li>
+  <ul class="note-list">
+{%   for n in dn[1] %}
+    <li class="note-item">
+      <div class="note-digits">{{ n.last_digits }}</div>
+      <div><a href="{{prefix}}{{n.url}}">{{ n.title_or_untitled }}</a></div>
+    </li>
+{%   endfor %}
+  </ul>
+{% endfor %}
+</ul>
+</div>

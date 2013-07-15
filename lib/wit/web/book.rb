@@ -10,10 +10,22 @@ module Wit
     include RepoOwnable
 
     def book() raise "Should be overriden!"; end
+    def url_prefix() book.thinking?() ? "/~" : ""; end
 
     get '/' do
       note = book.cover
-      liquid :cover, layout: nil, locals: { note: note, title: note.title }
+      liquid :cover, layout: nil, locals: { note: note, months: book.months, title: note.title }
+    end
+
+    get '/:yyyy/:mm' do
+      m = book.month_from_components(params[:yyyy], params[:mm])
+      notes = book.to_notes(m.names)
+      notes_per_day = notes.inject({}) do |a, i|
+        (a[i.digits[-2]] ||= []) << i
+        a
+      end
+
+      liquid :month, layout: :layout, locals: { month: m, notes: notes_per_day, prefix: url_prefix }
     end
 
     get '/:yyyy/:mm/:dd/:hhmmtitle' do

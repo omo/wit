@@ -38,7 +38,13 @@ describe "The web app" do
   end
 end
 
-describe "The latest note" do
+describe "THe month index" do
+  include WitWebTesting
+
+  it "returns list of note links" do
+    get "/2012/01"
+    last_response.should be_ok
+  end
 end
 
 describe "The article note" do

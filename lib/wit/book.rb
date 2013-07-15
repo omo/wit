@@ -4,8 +4,33 @@ require 'wit/base'
 require 'wit/name'
 require 'wit/note'
 require 'erb'
+require 'liquid' # for Month
 
 module Wit
+
+  class Month
+    MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    liquid_methods :to_s, :yyyy, :mm, :url, :month_abbrev, :names
+    attr_reader :filename
+
+    def initialize(y, m, filename=nil)
+      @y = y
+      @m = m
+      @filename = filename
+    end
+
+    def yyyy() sprintf("%04d", @y); end
+    def   mm() sprintf("%02d", @m); end
+    def to_s() "#{yyyy}/#{mm}"; end
+    def url() "/#{yyyy}/#{mm}"; end
+    def month_abbrev() MONTH_NAMES[@m - 1]; end
+
+    def names
+      type = "md"
+      Dir.glob(File.join(@filename, "*." + type)).map { |n| Name.new(n) }
+    end
+  end
+
   class Book
     def name_from_components(yyyy, mm, dd, hhmm, title, type)
       raise NotFound unless yyyy  =~ /\d\d\d\d/
@@ -25,6 +50,16 @@ module Wit
       return note
     end
 
+    def to_notes(names)
+      names.inject([]) do |a, name|
+        if name.exist?
+          note = name.to_note
+          a << note if note.published? or thinking?
+        end
+        a
+      end
+    end
+
     def covername() Name.new(File.join(@root, "cover.md")); end
     def cover() to_note(covername); end
 
@@ -37,6 +72,22 @@ module Wit
           end
         end
       end
+    end
+
+    def months
+      Dir.glob(File.join(@root, "*")).inject([]) do |a, dir|
+        if File.directory?(dir)
+          y, m = File.basename(dir).split("_").map { |i| i.to_i }
+          a << Month.new(y, m, dir)
+        end
+        a
+      end
+    end
+
+    def month_from_components(yyyy, mm)
+      raise NotFound unless yyyy  =~ /\d\d\d\d/
+      raise NotFound unless   mm  =~ /\d\d/
+      Month.new(yyyy.to_i, mm.to_i, File.join(@root, "#{yyyy}_#{mm}"))
     end
 
     def make_pathlike(title)

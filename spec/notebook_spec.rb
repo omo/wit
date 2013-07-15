@@ -11,6 +11,8 @@ describe Wit::Book do
     it "makes a name from date like URL components" do
       name = @book.name_from_components("2013", "06", "09", "1234", "hello", :md)
       expect(name.filename).to eq("./2013_06/2013_06_09_1234_hello.md")
+      expect(name.components.digits).to eq(["2013", "06", "09", "1234"])
+      expect(name.components.title).to eq("hello")
     end
 
     it "makes a name even without specifying title" do
@@ -46,6 +48,34 @@ describe Wit::Book do
       name = @book.covername
       expect(name.exist?).to be_true
     end
+
+    it "enumerates recorded months" do
+      target = @book.months
+      expect(target.size).to eq(4)
+      expect(target.first.to_s).to eq("2011/12")
+    end
+
+    it "returns a month with containing names" do
+      target = @book.months.first
+      names = target.names
+      expect(names.size).to eq(2)
+      names.each { |n| expect(n).to be_a_kind_of(Wit::Name) }
+    end
+
+    it "returns a month with containing names" do
+      target = @book.month_from_components("2011", "12")
+      expect(File.exist?(target.filename)).to be_true
+    end
+  end
+end
+
+describe Wit::Month do
+  it "can be pretty printed" do
+    target = Wit::Month.new(2011, 1)
+    expect(target.yyyy).to eq("2011")
+    expect(target.mm  ).to eq("01")
+    expect(target.to_s).to eq("2011/01")
+    expect(target.month_abbrev).to eq("Jan")
   end
 end
 

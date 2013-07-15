@@ -66,9 +66,7 @@ h1#identity a {
 
 .cover {
   padding : 0.0em;
-  margin: 2em;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 2em auto 2em auto;;
   font-size: 18pt;
   width: 600px;
 }
@@ -86,4 +84,69 @@ h1#identity a {
   margin: 0em;
   color: #888;
   font-size: 22pt;
+}
+
+.navigation {
+  background-color: #ddd;
+  color: #777;
+  position: absolute;
+  left: 0px;
+  top: 100%;
+  width: 100%;
+  height: 240px;
+  margin-top: -240px;
+
+  border-color: #aaa;
+  border-style: solid;
+  border-width: 1px 0px 0px 0px;
+
+  font-size: 14px;
+}
+
+.archive h2 {
+  font-size: 14px;
+}
+
+.archive {
+  width: 600px;
+  margin: 2em auto 2em auto;;
+}
+
+.month {
+  width: 80%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 2em 0em 1em 0em;
+  font-size: 16pt;
+}
+
+ul.month-list {
+  display: block;
+}
+
+ul.month-list li {
+  display: inline-block;
+}
+
+ul.note-day-list {
+  display: block;
+}
+
+li.note-day {
+  padding: 0.4em 0.0em 0.4em 0.0em;
+  display: block;
+}
+
+ul.note-list {
+  display: block;
+}
+
+li.note-item {
+  padding: 0.2em 0.5em 0.2em 0em;
+  display: inline-block;
+}
+
+div.note-digits {
+  font-size: 12px;
 }
