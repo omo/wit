@@ -2,10 +2,10 @@
 require 'wit'
 require 'nokogiri'
 
-describe Wit::Notebook do
+describe Wit::Book do
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./", thinking: true)
+      @book = Wit::Book.new("./", thinking: true)
     end
 
     it "makes a name from date like URL components" do
@@ -31,10 +31,10 @@ describe Wit::Notebook do
 
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./testrepo/n", thinking: true)
+      @book = Wit::Book.new("./testrepo/n", thinking: true)
     end
 
-    it "lists latest notebook names" do
+    it "lists latest book names" do
       note_names = @book.latest_note_names.to_a
       expect(note_names.size).to be > 3
       note_names.each do |n|
@@ -52,7 +52,7 @@ end
 describe Wit::Name do
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./testrepo/n")
+      @book = Wit::Book.new("./testrepo/n")
     end
 
     it "responts exist?" do
@@ -98,7 +98,7 @@ end
 describe Wit::Note do
   context do
     before(:each) do 
-      @book = Wit::Notebook.new("./")
+      @book = Wit::Book.new("./")
       @hello_note = Wit::Name.new(testdata_named("hello.md")).to_note
     end
 

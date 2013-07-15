@@ -10,6 +10,15 @@ h1 {
   font-family: "Alef", serif;
 }
 
+a:link, a:visited {
+  color: #44a;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 .note {
   width: 80%;
   max-width: 800px;

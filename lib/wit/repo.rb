@@ -1,6 +1,6 @@
 # encoding: utf-8
 
-require 'wit/notebook'
+require 'wit/book'
 require 'fileutils'
 
 module Wit
@@ -11,11 +11,11 @@ module Wit
     end
 
     def thinking_book
-      @thinking_book ||= Notebook.new(File.join(@path, "n"), thinking: true)
+      @thinking_book ||= Book.new(File.join(@path, "n"), thinking: true)
     end
 
     def published_book
-      @publisehd_book ||= Notebook.new(File.join(@path, "n"))
+      @publisehd_book ||= Book.new(File.join(@path, "n"))
     end
 
     def fetch_or_clone

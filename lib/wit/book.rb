@@ -148,7 +148,7 @@ EOF
     end
   end
 
-  class Notebook
+  class Book
     def name_from_components(yyyy, mm, dd, hhmm, title, type)
       raise NotFound unless yyyy  =~ /\d\d\d\d/
       raise NotFound unless   mm  =~ /\d\d/
