@@ -23,7 +23,7 @@ describe "The web app" do
   include WitWebTesting
 
   it "has latest page" do
-    get "/latest"
+    get "/~/latest"
     last_response.should be_ok
   end
 
