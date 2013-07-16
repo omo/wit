@@ -51,7 +51,7 @@ describe Wit::Book do
 
     it "enumerates recorded months" do
       target = @book.months
-      expect(target.size).to eq(4)
+      expect(target.size).to eq(3)
       expect(target.first.to_s).to eq("2011/12")
     end
 
