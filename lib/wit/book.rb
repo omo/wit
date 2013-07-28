@@ -43,6 +43,17 @@ module Wit
       Name.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
     end
 
+    def md_name_from_components(yyyy, mm, dd, hhmmtitle)
+      m = /(\d+)\-(.*)/.match(hhmmtitle)
+      if m
+        hhmm  = m[1]
+        title = m[2]
+        name_from_components(yyyy, mm, dd, hhmm, title, :md)
+      else
+        name_from_components(yyyy, mm, dd, hhmmtitle, nil, :md)
+      end
+    end
+
     def to_note(name)
       raise NotFound unless name.exist?
       note = name.to_note

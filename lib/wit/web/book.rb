@@ -31,14 +31,7 @@ module Wit
     end
 
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
-      m = /(\d+)\-(.*)/.match(params[:hhmmtitle])
-      if m
-        hhmm  = m[1]
-        title = m[2]
-        name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], hhmm, title, :md)
-      else
-        name = book.name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle], nil, :md)
-      end
+      name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
       note = book.to_note(name)
       liquid :note, layout: :layout, locals: { note: note, title: note.title }
     end
@@ -65,5 +58,8 @@ module Wit
         liquid :latest, layout: :layout, locals: { notes: notes }
       end
     end
+
+    # Following endpoints are APIs for editing screens
+
   end
 end
