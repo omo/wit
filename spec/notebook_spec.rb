@@ -149,6 +149,15 @@ describe Wit::Note do
       expect(@hello_note.title).to eq("The Title")
     end
 
+    it "should be written" do
+      was_published = @hello_note.published?
+      updated_body = "Updated!"
+      updated_head = { "publish" => !was_published }
+      @hello_note.update(updated_head, updated_body)
+      expect(@hello_note.body).to eq("<p>#{updated_body}</p>\n")
+      expect(@hello_note.title).to be_nil
+      expect(@hello_note.published?).to eq(!was_published)
+    end
   end
 end
 

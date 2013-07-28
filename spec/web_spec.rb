@@ -7,8 +7,10 @@ module WitWebTesting
   # From http://www.sinatrarb.com/testing.html
   include Rack::Test::Methods
 
+  REPO_PATH = File.join(File.dirname(__FILE__), "../testrepo")
+
   class T < Wit::Web
-    set(:repopath, File.join(File.dirname(__FILE__), "../testrepo"))
+    set(:repopath, REPO_PATH)
     set(:repourl, "https://github.com/omo/whatever")
     set(:github_client_id, "testcid")
     set(:github_client_secret, "testsecret")
@@ -94,6 +96,19 @@ end
   end
 
   # XXX: Should test not found case
+end
+
+describe "Posting" do
+  include WitWebTesting
+
+  context do
+    after(:each) do 
+      system("cd #{WitWebTesting::REPO_PATH} && git checkout HEAD .")
+    end
+
+    it "Hi" do
+    end
+  end
 end
 
 describe "The sync" do

@@ -3,7 +3,6 @@
 require 'wit/base'
 require 'wit/name'
 require 'wit/note'
-require 'erb'
 require 'liquid' # for Month
 
 module Wit

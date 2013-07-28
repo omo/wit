@@ -1,6 +1,7 @@
 # encoding: utf-8
 
 require 'sinatra/base'
+require 'json'
 require 'liquid'
 require 'wit/repo'
 require 'wit/web/helpers'
@@ -60,6 +61,15 @@ module Wit
     end
 
     # Following endpoints are APIs for editing screens
+
+    put '/:yyyy/:mm/:dd/:hhmmtitle' do
+      halt '400' unless request.content_type == "application/json"
+
+      name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
+      note = book.to_note(name)
+      req  = JSON.parse(request.body)
+      #return JSON.dump()
+    end
 
   end
 end

@@ -23,6 +23,8 @@ module Wit
     end
   end
 
+  class NoteContent < Struct.new(:data, :body_text, :head_text, :head, :body, :title); end
+
   # FIXME: should have its own file
   class Note
     liquid_methods :body, :url, :title, :title_or_untitled, :last_digits
@@ -30,26 +32,32 @@ module Wit
 
     def initialize(name)
       # FIXME: ensure if it is header-prepended markdown
+      @content = NoteContent.new
       @name = name
-      @body = nil
     end
+
+    def clear() @content = NoteContent.new; end
 
     def exist?() name.exist?; end
     def url() name.url; end
     def published?() head["publish"]; end
 
     def head
-      @head ||= Psych.load(head_text || '')
+      @content.head ||= Psych.load(head_text || '')
+    end
+
+    def head_or_empty
+      exist?() ? head : {}
     end
 
     def body
-      render
-      @body
+      render_if_needed
+      @content.body
     end
 
     def title
-      render
-      @title
+      render_if_needed
+      @content.title
     end
 
     def title_or_untitled
@@ -74,26 +82,47 @@ publish: false
 EOF
 )
 
+    def write
+      raise "There is no content to write!" unless @content.data
+      overwrite(@content.data)
+      clear
+    end
+
     def write_boilerplate(title=nil)
       raise "The file #{@name.filename} is already exist!" if exist?
-      content = BOILERPLATE.result(binding)
-      FileUtils.makedirs(File.dirname(@name.filename))
-      open(@name.filename, "w:UTF-8") { |f| f.write content } unless File.exist?(@name.filename)
+      overwrite(BOILERPLATE.result(binding))
+      clear
+    end
+
+    def update(head, body_md)
+      old_head = self.head_or_empty
+      clear
+      @content.data = Psych.dump(old_head.merge(head)) + "\n----\n" + body_md
     end
 
     private
 
+    def overwrite(data)
+      FileUtils.makedirs(File.dirname(@name.filename))
+      open(@name.filename, "w:UTF-8") { |f| f.write data }
+    end
+    
+    def render_if_needed
+      return if @content.body
+      render
+    end
+
     def render
-      return if @body
+      raise if @content.body # Should be guarded by render_if_needed
       opts = { :autolink => true, :space_after_headers => true }
       renderer = NoteRenderer.new
       md = Redcarpet::Markdown.new(renderer, opts)
-      @body = md.render(body_text)
-      @title = renderer.title
+      @content.body  = md.render(body_text)
+      @content.title = renderer.title
     end
 
     def data
-      @data ||= open(@name.filename, "r:UTF-8").read
+      @content.data ||= open(@name.filename, "r:UTF-8").read
     end
 
     def body_and_head_text
@@ -103,8 +132,8 @@ EOF
       return { :head => nil,   :body => first  }
     end
 
-    def body_text() @body_text ||= body_and_head_text[:body]; end
-    def head_text() @head_text ||= body_and_head_text[:head]; end
+    def body_text() @content.body_text ||= body_and_head_text[:body]; end
+    def head_text() @content.head_text ||= body_and_head_text[:head]; end
   end
 
   class Name
