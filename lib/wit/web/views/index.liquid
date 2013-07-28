@@ -2,22 +2,31 @@
 <html>
 <head>
 <title>WiT: Writing is Thinking</title>
-<link href='http://fonts.googleapis.com/css?family=Cinzel|Alef:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fauna+One|Cinzel|Alef:400,700' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="/stylesheets/wit.css" />
 </head>
 <body>
-<div>
+<div class="container">
+<div class="content">
 {{yield}}
 </div>
+
 <div class="navigation">
+
 <div class="archive">
 <h2>Archives</h2>
+</div>
+
+<div class="archive-content">
 <ul class="month-list">
 {% for m in months %}
   <li><a href="{{prefix}}{{m.url}}">{{m}}</a></li>
 {% endfor %}
 </ul>
+</div>
+
+</div>
 </div>
 </div>
 </body>

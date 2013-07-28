@@ -4,6 +4,8 @@ html, body {
   margin: 0px;
   padding: 0px;
   font-family: Verdana, serif;
+  height: 100%; /* min-height doesn't work... */
+  overflow: visible;
 }
 
 h1 {
@@ -17,6 +19,17 @@ a:link, a:visited {
 
 a:hover {
   text-decoration: underline;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  min-height: 100%;
+}
+
+.content {
+  flex: 1;
 }
 
 .note {
@@ -73,7 +86,7 @@ h1#identity a {
 .cover h1 {
   /* margin: 0em; */
   padding : 0em;
-  border-style: normal;
+  border-style: none;
 
   font-size: 28pt;
   padding : 0em;
@@ -89,33 +102,46 @@ h1#identity a {
 }
 
 .navigation {
+  display: flex;
+  flex-direction: row;
+
   background-color: #ddd;
   color: #777;
-  position: absolute;
-  left: 0px;
-  top: 100%;
-  width: 100%;
-  height: 240px;
-  margin-top: -240px;
 
   border-color: #aaa;
   border-style: solid;
   border-width: 1px 0px 0px 0px;
 
   font-size: 14px;
+
+}
+
+.archive {
+  width: 10em;
 }
 
 .archive h2 {
   font-size: 14px;
+  padding: 1em;
+  font-weight: normal;
 }
 
-.archive {
-  width: 600px;
-  margin: 2em auto 2em auto;;
+.archive-content {
+  padding: 0px;
+  background-color: #eee;
+  flex: 1;
+}
+
+ul.month-list {
+  display: block;
+}
+
+ul.month-list li {
+  display: inline-block;
 }
 
 hr.footer {
-  display: hidden;
+  visibility: hidden;
   height: 2em;
   border-style: none;
 }
@@ -128,13 +154,6 @@ hr.footer {
   font-size: 16pt;
 }
 
-ul.month-list {
-  display: block;
-}
-
-ul.month-list li {
-  display: inline-block;
-}
 
 ul.note-day-list {
   display: block;
