@@ -28,6 +28,10 @@ module Wit
       type = "md"
       Dir.glob(File.join(@filename, "*." + type)).map { |n| Name.new(n) }
     end
+
+    def <=>(other)
+      self.url <=> other.url
+    end
   end
 
   class Book
@@ -91,7 +95,7 @@ module Wit
           a << Month.new(y, m, dir)
         end
         a
-      end
+      end.sort
     end
 
     def month_from_components(yyyy, mm)

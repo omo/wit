@@ -24,9 +24,9 @@ module Wit
       notes_per_day = notes.inject({}) do |a, i|
         (a[i.digits[-2]] ||= []) << i
         a
-      end
+      end.sort
 
-      notes_per_day.sort.each { |k,v| v.sort! { |x, y| x.url <=> y.url } }
+      notes_per_day.each { |k,v| v.sort! { |x, y| x.url <=> y.url } }
 
       liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix }
     end
