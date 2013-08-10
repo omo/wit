@@ -39,7 +39,7 @@ module Wit
         JSON.dump(note.to_api_response)
       else
         edit_url = url_prefix + "/edit" + note.url
-        liquid :note, layout: :layout, locals: { note: note, title: note.title, thinking: thinking, edit_url: edit_url }
+        liquid :note, layout: :layout, locals: { note: note, title: note.title, prefix: url_prefix, thinking: thinking, edit_url: edit_url }
       end
     end
 
@@ -90,12 +90,12 @@ module Wit
       JSON.dump({ "url" => url_prefix + name.url })
     end
 
-    get '/edit' do
-      liquid :edit, layout: :layout
+    get '/edit'  do
+      liquid :edit, layout: :layout, locals: { prefix: url_prefix } 
     end
 
     get '/edit/*' do
-      liquid :edit, layout: :layout
+      liquid :edit, layout: :layout, locals: { prefix: url_prefix }
     end
   end
 end
