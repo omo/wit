@@ -105,7 +105,7 @@ EOF
     end
 
     def to_api_response
-      { "publish" => published?, "body" => body_text }
+      { "publish" => published?, "body" => body_text, "title" => title }
     end
 
     private

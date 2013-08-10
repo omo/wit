@@ -17,4 +17,23 @@ module Wit
       def enable(key) self.class.enable(key); end
     end
   end
+
+  module ApiServable
+    def req_hash
+      @req_hash ||= JSON.parse(request.body.read)
+    end
+
+    def api_request?
+      request.content_type == "application/json"
+    end
+
+    def should_be_api_request
+      halt 400 unless api_request?
+    end
+
+    def required_value_of(key_name)
+      halt 400, "Should have key: #{key_name}" unless req_hash.has_key?(key_name)
+      req_hash[key_name]
+    end
+  end
 end

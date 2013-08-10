@@ -8,7 +8,7 @@ require 'wit/web/helpers'
 
 module Wit
   class BookWeb < Sinatra::Base
-    include RepoOwnable
+    include RepoOwnable, ApiServable
 
     def book() raise "Should be overriden!"; end
     def url_prefix() book.thinking?() ? "/~" : ""; end
@@ -34,7 +34,11 @@ module Wit
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
       name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
       note = book.to_note(name)
-      liquid :note, layout: :layout, locals: { note: note, title: note.title }
+      if api_request?
+        JSON.dump(note.to_api_response)
+      else
+        liquid :note, layout: :layout, locals: { note: note, title: note.title }
+      end
     end
 
     error Wit::Forbidden, Wit::NotFound do
@@ -74,19 +78,18 @@ module Wit
       JSON.dump(note.to_api_response)
     end
 
-    private
-
-    def req_hash
-      @req_hash ||= JSON.parse(request.body.read)
+    post '/fresh' do
+      should_be_api_request
+      name = book.fresh_note_name(req_hash["title"])
+      JSON.dump({ "url" => url_prefix + name.url })
     end
 
-    def should_be_api_request
-      halt 400 unless request.content_type == "application/json"
+    get '/edit' do
+      liquid :edit, layout: :layout
     end
 
-    def required_value_of(key_name)
-      halt 400, "Should have key: #{key_name}" unless req_hash.has_key?(key_name)
-      req_hash[key_name]
+    get '/edit/*' do
+      liquid :edit, layout: :layout
     end
   end
 end

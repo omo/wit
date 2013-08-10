@@ -124,6 +124,25 @@ describe "Posting" do
       expect(res["body"]).to eq("Hello")
       expect(res["publish"]).to eq(true)
     end
+
+    it "makes fresh url" do
+      app.enable(:disable_auth)
+      header("Content-Type", "application/json")
+      post("/~/fresh", to_json_str("title" => "Hello, Title"))
+      expect(last_response.status).to eq(200)
+      res = JSON.parse(last_response.body)
+      expect(res["url"]).to end_with("hello-title")
+      expect(res["url"]).to start_with("/~")
+    end
+
+    it "makes fresh url without keyword" do
+      app.enable(:disable_auth)
+      header("Content-Type", "application/json")
+      post("/~/fresh", to_json_str("title" => ""))
+      expect(last_response.status).to eq(200)
+      res = JSON.parse(last_response.body)
+      expect(res["url"].class).to eq(String)
+    end
   end
 end
 

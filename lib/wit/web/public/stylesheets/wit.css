@@ -178,3 +178,81 @@ li.note-item {
 div.note-digits {
   font-size: 12px;
 }
+
+
+.edit {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  height: 100%;
+}
+
+.edit-title {
+  background-color: #efe;
+
+  font-size: 18pt;
+  padding: 0.5em;
+  margin: 0px;
+  width: 100%;
+
+  border-style: none;
+  outline: none;
+
+}
+
+.edit-body {
+  flex: 1;
+
+  font-size: 14pt;
+  padding: 0.5em;
+
+  width: 100%;
+  height: 100%;
+
+  border-style: none;
+  outline: none;
+}
+
+.edit-controls {
+  background-color: #eee;
+
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+.edit-padding {
+  flex: 1;
+}
+
+.edit-ctl {
+  background-color: #ccc;
+  display: inline-block;
+
+  font-size: 10pt;
+  padding: 0.3em;
+  margin: 0.4em 0.4em 0em 0em;
+  outline: none;
+}
+
+.saving {
+  background-color: #ccc;
+  color: #999;
+}
+
+.edit-ctl:focus {
+  background-color: #acc;
+}
+
+.edit-controls input[type=checkbox]:before {
+  content: "P";
+  color: #888;
+}
+
+.edit-controls input[type=checkbox] {
+  -webkit-appearance: none;
+}
+
+.edit-controls input[type=checkbox]:checked:before {
+  color: #800;
+}
