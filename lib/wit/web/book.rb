@@ -63,13 +63,30 @@ module Wit
     # Following endpoints are APIs for editing screens
 
     put '/:yyyy/:mm/:dd/:hhmmtitle' do
-      halt '400' unless request.content_type == "application/json"
+      should_be_api_request
 
+      publish = required_value_of("publish")
+      body = required_value_of("body")
       name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
-      note = book.to_note(name)
-      req  = JSON.parse(request.body)
-      #return JSON.dump()
+      note = book.to_note(name, { fresh: true })
+      note.update({ "publish" => publish }, body)
+      note.write # We don't sync here. Each client should do that.
+      JSON.dump(note.to_api_response)
     end
 
+    private
+
+    def req_hash
+      @req_hash ||= JSON.parse(request.body.read)
+    end
+
+    def should_be_api_request
+      halt 400 unless request.content_type == "application/json"
+    end
+
+    def required_value_of(key_name)
+      halt 400, "Should have key: #{key_name}" unless req_hash.has_key?(key_name)
+      req_hash[key_name]
+    end
   end
 end

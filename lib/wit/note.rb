@@ -82,6 +82,10 @@ publish: false
 EOF
 )
 
+    def self.make_boilerplate(title=nil)
+      BOILERPLATE.result(binding)
+    end
+
     def write
       raise "There is no content to write!" unless @content.data
       overwrite(@content.data)
@@ -90,7 +94,7 @@ EOF
 
     def write_boilerplate(title=nil)
       raise "The file #{@name.filename} is already exist!" if exist?
-      overwrite(BOILERPLATE.result(binding))
+      overwrite(Note.make_boilerplate(title))
       clear
     end
 
@@ -98,6 +102,10 @@ EOF
       old_head = self.head_or_empty
       clear
       @content.data = Psych.dump(old_head.merge(head)) + "\n----\n" + body_md
+    end
+
+    def to_api_response
+      { "publish" => published?, "body" => body_text }
     end
 
     private
@@ -122,11 +130,19 @@ EOF
     end
 
     def data
-      @content.data ||= open(@name.filename, "r:UTF-8").read
+      @content.data ||= open_or_create
+    end
+
+    def open_or_create
+      if @name.exist?
+        open(@name.filename, "r:UTF-8") { |f| f.read }
+      else
+        Note.make_boilerplate
+      end
     end
 
     def body_and_head_text
-      m = /^(.+?)\-\-\-\-(.+)/m.match(data)
+      m = /^(.+?)\-\-\-\-\n(.+)/m.match(data)
       first, second = m[1], m[2]
       return { :head => first, :body => second } if first and second
       return { :head => nil,   :body => first  }

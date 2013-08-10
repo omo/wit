@@ -98,15 +98,31 @@ end
   # XXX: Should test not found case
 end
 
+def to_json_str(dict)
+  StringIO.new(JSON.dump(dict))
+end
+
 describe "Posting" do
   include WitWebTesting
 
   context do
-    after(:each) do 
-      system("cd #{WitWebTesting::REPO_PATH} && git checkout HEAD .")
+    after(:each) do
+      system("cd #{WitWebTesting::REPO_PATH} && git clean -fdq && git checkout HEAD .")
     end
 
-    it "Hi" do
+    it "creates a fresh post" do
+      app.enable(:disable_auth)
+
+      path = "/~/2013/08/09/1234-hello"
+      get(path)
+      expect(last_response.status).to eq(404)
+
+      header("Content-Type", "application/json")
+      put(path, to_json_str("publish" => true, "body" => "Hello"))
+      expect(last_response.status).to eq(200)
+      res = JSON.parse(last_response.body)
+      expect(res["body"]).to eq("Hello")
+      expect(res["publish"]).to eq(true)
     end
   end
 end

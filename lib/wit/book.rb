@@ -57,8 +57,8 @@ module Wit
       end
     end
 
-    def to_note(name)
-      raise NotFound unless name.exist?
+    def to_note(name, options = {})
+      raise NotFound unless (name.exist? or options[:fresh])
       note = name.to_note
       raise Forbidden unless note.published? or thinking?
       return note
