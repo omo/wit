@@ -10,6 +10,7 @@ module Wit
   class BookWeb < Sinatra::Base
     include RepoOwnable, ApiServable
 
+    def thinking() false; end
     def book() raise "Should be overriden!"; end
     def url_prefix() book.thinking?() ? "/~" : ""; end
 
@@ -37,7 +38,8 @@ module Wit
       if api_request?
         JSON.dump(note.to_api_response)
       else
-        liquid :note, layout: :layout, locals: { note: note, title: note.title }
+        edit_url = url_prefix + "/edit" + note.url
+        liquid :note, layout: :layout, locals: { note: note, title: note.title, thinking: thinking, edit_url: edit_url }
       end
     end
 
@@ -53,6 +55,10 @@ module Wit
   end
 
   class ThinkingBookWeb < BookWeb
+    def thinking()
+      true
+    end
+
     def book
       @@book ||= repo.thinking_book
     end

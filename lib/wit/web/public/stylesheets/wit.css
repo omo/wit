@@ -61,6 +61,29 @@ a:hover {
   background-color: #eee;
 }
 
+.note-footer {
+  font-size: 10pt;
+  min-height: 0.5em;
+  background-color: black;
+  padding: 0px;
+}
+
+.note-footer-item {
+  margin: 0.5em;
+  padding: 0.2em; 0.5em; 0.2em 0.5em;
+  display: inline-block;
+  color: white;
+  background-color: #333;
+}
+
+.note-footer-item a {
+  color: white;
+}
+
+.note-footer-item a:link {
+  text-decoration: none;
+}
+
 h1#identity {
   margin: 0px;
   position: absolute;
@@ -214,7 +237,7 @@ div.note-digits {
 }
 
 .edit-controls {
-  background-color: #eee;
+  background-color: black;
 
   display: flex;
   flex-direction: row;
@@ -225,8 +248,14 @@ div.note-digits {
   flex: 1;
 }
 
+.edit-controls a {
+  color: white;
+  text-decoration: none;
+}
+
 .edit-ctl {
-  background-color: #ccc;
+  color: white;
+  background-color: #333;
   display: inline-block;
 
   font-size: 10pt;

@@ -1,6 +1,13 @@
-<div class="note">
+<div class="container">
+<div class="note content">
 {% if nil == title %}
 <h1>(Untitled)</h1>
 {% endif %}
 {{note.body}}
+</div>
+<div class="note-footer">
+{% if thinking %}
+<div class="note-footer-item"><a href="{{ edit_url }}">Edit</a></div>
+{% endif %}
+</div>
 </div>
