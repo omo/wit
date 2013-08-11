@@ -28,8 +28,18 @@
 {% endfor %}
 </ul>
 </div>
-
 </div>
+
+{% if thinking %}
+<div class="think-footer">
+  <div class="think-footer-item index-nav-new" tabindex="0">New</div>
+  <div class="think-footer-item index-nav-sync" tabindex="0">Sync</div>
+</div>
+<script>
+$(document).on("ready", WIT.initIndexNavigation);
+</script>
+{% endif %}
+
 </div>
 </div>
 </body>

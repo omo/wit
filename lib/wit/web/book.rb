@@ -16,7 +16,7 @@ module Wit
 
     get '/' do
       note = book.cover
-      liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix }
+      liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix, thinking: thinking }
     end
 
     get '/:yyyy/:mm' do
@@ -29,7 +29,7 @@ module Wit
 
       notes_per_day.each { |k,v| v.sort! { |x, y| x.url <=> y.url } }
 
-      liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix }
+      liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix, thinking: thinking }
     end
 
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
