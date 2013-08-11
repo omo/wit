@@ -61,26 +61,26 @@ a:hover {
   background-color: #eee;
 }
 
-.note-footer {
-  font-size: 10pt;
+.think-footer {
   min-height: 0.5em;
   background-color: black;
   padding: 0px;
 }
 
-.note-footer-item {
-  margin: 0.5em;
-  padding: 0.2em; 0.5em; 0.2em 0.5em;
+.think-footer-item {
+  font-size: 10pt;
+  margin: 0.5em 0em 0.5em 0.5em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
   display: inline-block;
   color: white;
   background-color: #333;
 }
 
-.note-footer-item a {
+.think-footer-item a {
   color: white;
 }
 
-.note-footer-item a:link {
+.think-footer-item a:link {
   text-decoration: none;
 }
 
@@ -109,7 +109,6 @@ h1#identity a {
   font-size: 18pt;
 }
 .cover h1 {
-  /* margin: 0em; */
   padding : 0em;
   border-style: none;
 
@@ -202,7 +201,6 @@ div.note-digits {
   font-size: 12px;
 }
 
-
 .edit {
   display: flex;
   flex-direction: column;
@@ -237,15 +235,6 @@ div.note-digits {
 }
 
 .edit-controls {
-  background-color: black;
-
-  display: flex;
-  flex-direction: row;
-  align-content: stretch;
-}
-
-.edit-padding {
-  flex: 1;
 }
 
 .edit-controls a {
@@ -253,33 +242,31 @@ div.note-digits {
   text-decoration: none;
 }
 
-.edit-ctl {
-  color: white;
-  background-color: #333;
-  display: inline-block;
-
-  font-size: 10pt;
-  padding: 0.3em;
-  margin: 0.4em 0.4em 0em 0em;
-  outline: none;
-}
-
 .saving {
   background-color: #ccc;
   color: #999;
 }
 
-.edit-ctl:focus {
-  background-color: #acc;
+input.think-footer-item {
+  margin: 0px;
+  padding: 0.2em; 0.5em; 0.2em 0em;
 }
 
 .edit-controls input[type=checkbox]:before {
   content: "P";
-  color: #888;
+
+  /* This should be include .think-footer-item */
+  font-size: 10pt;
+  margin: 0.5em 0em 0.5em 0.5em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  display: inline-block;
+  color: white;
+  background-color: #333;
 }
 
 .edit-controls input[type=checkbox] {
   -webkit-appearance: none;
+  margin: 0em;
 }
 
 .edit-controls input[type=checkbox]:checked:before {
