@@ -65,6 +65,10 @@ a:hover {
   min-height: 0.5em;
   background-color: black;
   padding: 0px;
+
+  display: flex;
+  flex-direction: rows;
+  align-content: stretch;
 }
 
 .think-footer-item {
@@ -76,12 +80,29 @@ a:hover {
   background-color: #333;
 }
 
+input.think-footer-item {
+  margin: 0px;
+  padding: 0.2em 0.5em 0.2em 0em;
+}
+
 .think-footer-item a {
   color: white;
 }
 
 .think-footer-item a:link {
   text-decoration: none;
+}
+
+.think-footer-console {
+  flex: 1;
+  background-color: #115;
+  color: #ccc;
+}
+
+.think-footer-padding {
+  background-color: transparent;
+  width: 0px;
+  padding: 0px;
 }
 
 h1#identity {
@@ -252,11 +273,6 @@ div.note-digits {
 .saving {
   background-color: #ccc;
   color: #999;
-}
-
-input.think-footer-item {
-  margin: 0px;
-  padding: 0.2em 0.5em 0.2em 0em;
 }
 
 .edit-controls input[type=checkbox]:before {
