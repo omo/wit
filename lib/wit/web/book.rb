@@ -31,24 +31,26 @@ module Wit
       liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix, thinking: book.thinking? }
     end
 
+    get '/:yyyy/:mm/:dd/:hhmmtitle.json' do
+      should_be_api_request
+      name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
+      note = book.to_note(name)
+      JSON.dump(note.to_api_response)
+    end
+
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
       name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
       note = book.to_note(name)
-      if api_request?
-        JSON.dump(note.to_api_response)
-      else
-        locals = { note: note, title: note.title, prefix: url_prefix, thinking: book.thinking?, edit_url: url_prefix + "/edit" + note.url }
-
-        if book.thinking?
-          next_name = name.walk( 1)
-          prev_name = name.walk(-1)
-          locals[:up_url] = url_prefix + book.month_of(name).url
-          locals[:next_url] = url_prefix + next_name.url if next_name
-          locals[:prev_url] = url_prefix + prev_name.url if prev_name
-        end
-
-        liquid :note, layout: :layout, locals: locals
+      locals = { note: note, title: note.title, prefix: url_prefix, thinking: book.thinking?, edit_url: url_prefix + "/edit" + note.url }
+      if book.thinking?
+        next_name = name.walk( 1)
+        prev_name = name.walk(-1)
+        locals[:up_url] = url_prefix + book.month_of(name).url
+        locals[:next_url] = url_prefix + next_name.url if next_name
+        locals[:prev_url] = url_prefix + prev_name.url if prev_name
       end
+
+      liquid :note, layout: :layout, locals: locals
     end
 
     error Wit::Forbidden, Wit::NotFound do

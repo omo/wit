@@ -59,6 +59,14 @@ describe "The article note" do
     expect(html.css("h2")[0].content).to include("This is title of example note")
   end
 
+  it "returns as json" do
+    header("Content-Type", "application/json")
+    get "/2012/01/02/1234-hello.json"
+    last_response.should be_ok
+    j = JSON.parse(last_response.body)
+    expect(j["body"]).to include("This is title of example note")
+  end
+
   it "accepts hyphen in the title" do
     get "/2013/06/01/1234-how-are-you"
     last_response.should be_ok
