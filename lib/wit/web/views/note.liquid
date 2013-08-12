@@ -5,9 +5,19 @@
 {% endif %}
 {{note.body}}
 </div>
-<div class="think-footer">
 {% if thinking %}
-<div class="think-footer-item"><a href="{{ edit_url }}">&gt;</a></div>
+<div class="think-footer">
+  <div class="edit-link think-footer-item" tabindex="0">
+    <a class="edit-link-anchor" href="{{ edit_url }}">&gt;</a>
+  </div>
+  <div class="new-link think-footer-item" tabindex="0">
+    <a class="new-link-anchor" href="/~/edit">New</a>
+  </div>
+</div>
 {% endif %}
 </div>
-</div>
+{% if thinking %}
+<script>
+$(document).on("ready", WIT.initNoteView);
+</script>
+{% endif %}
