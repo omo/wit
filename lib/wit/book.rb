@@ -104,6 +104,10 @@ module Wit
       Month.new(yyyy.to_i, mm.to_i, File.join(@root, "#{yyyy}_#{mm}"))
     end
 
+    def month_of(name)
+      month_from_components(name.components.digits[0], name.components.digits[1])
+    end
+
     def make_pathlike(title)
       return "index" if nil == title || title.empty?
       title.gsub(/[^(A-Za-z0-9)]+/, "-").gsub(/^\-|\-$/, "").downcase

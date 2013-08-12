@@ -12,6 +12,10 @@
 {% if prev_url %}
 <link id="prev-link" rel="prefetch" href="{{ prev_url }}" />
 {% endif %}
+{% if up_url %}
+<link id="up-link" rel="prefetch" href="{{ up_url }}" />
+{% endif %}
+
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="/javascripts/wit.js"></script>
 </head>

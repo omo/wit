@@ -42,6 +42,7 @@ module Wit
         if book.thinking?
           next_name = name.walk( 1)
           prev_name = name.walk(-1)
+          locals[:up_url] = url_prefix + book.month_of(name).url
           locals[:next_url] = url_prefix + next_name.url if next_name
           locals[:prev_url] = url_prefix + prev_name.url if prev_name
         end

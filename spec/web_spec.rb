@@ -87,6 +87,7 @@ describe "The article note" do
     html = Nokogiri::HTML(last_response.body)
     expect(html.css("#prev-link")[0]["href"]).to eq("/~/2012/01/02/0123-fuh")
     expect(html.css("#next-link")[0]["href"]).to eq("/~/2012/01/02/2345")
+    expect(html.css("#up-link")[0]["href"]).to eq("/~/2012/01")
   end
 
   it "hides unpublished note" do

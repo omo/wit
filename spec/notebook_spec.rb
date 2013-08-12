@@ -66,6 +66,13 @@ describe Wit::Book do
       target = @book.month_from_components("2011", "12")
       expect(File.exist?(target.filename)).to be_true
     end
+
+    it "returns a month of given name" do
+      name = @book.name_from_components("2012", "01", "02", "1234", "hello", :md)
+      target = @book.month_of(name)
+      expect(target.to_s).to eq("2012/01")
+    end
+
   end
 end
 
