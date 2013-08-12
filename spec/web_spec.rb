@@ -57,7 +57,7 @@ describe "The article note" do
     last_response.should be_ok
     html = Nokogiri::HTML(last_response.body)
     expect(html.css("h2")[0].content).to include("This is title of example note")
-end
+  end
 
   it "accepts hyphen in the title" do
     get "/2013/06/01/1234-how-are-you"
@@ -78,6 +78,15 @@ end
     last_response.should be_ok
     html = Nokogiri::HTML(last_response.body)
     expect(html.css("h2")[0].content).to include("This is title of an index page")
+  end
+
+  it "has prefetch links" do
+    app.enable(:disable_auth)
+    get "/~/2012/01/02/1234-hello"
+    last_response.should be_ok
+    html = Nokogiri::HTML(last_response.body)
+    expect(html.css("#prev-link")[0]["href"]).to eq("/~/2012/01/02/0123-fuh")
+    expect(html.css("#next-link")[0]["href"]).to eq("/~/2012/01/02/2345")
   end
 
   it "hides unpublished note" do

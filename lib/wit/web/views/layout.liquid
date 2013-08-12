@@ -6,6 +6,12 @@
 <link href='http://fonts.googleapis.com/css?family=Fauna+One|Alef:400,700' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="/stylesheets/wit.css" />
+{% if next_url %}
+<link id="next-link" rel="prefetch" href="{{ next_url }}" />
+{% endif %}
+{% if prev_url %}
+<link id="prev-link" rel="prefetch" href="{{ prev_url }}" />
+{% endif %}
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script src="/javascripts/wit.js"></script>
 </head>

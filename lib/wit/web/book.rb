@@ -10,13 +10,12 @@ module Wit
   class BookWeb < Sinatra::Base
     include RepoOwnable, ApiServable
 
-    def thinking() false; end
     def book() raise "Should be overriden!"; end
     def url_prefix() book.thinking?() ? "/~" : ""; end
 
     get '/' do
       note = book.cover
-      liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix, thinking: thinking }
+      liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix, thinking: book.thinking? }
     end
 
     get '/:yyyy/:mm' do
@@ -29,7 +28,7 @@ module Wit
 
       notes_per_day.each { |k,v| v.sort! { |x, y| x.url <=> y.url } }
 
-      liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix, thinking: thinking }
+      liquid :month, layout: :index, locals: { months: book.months, month: m, notes: notes_per_day, prefix: url_prefix, thinking: book.thinking? }
     end
 
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
@@ -38,8 +37,16 @@ module Wit
       if api_request?
         JSON.dump(note.to_api_response)
       else
-        edit_url = url_prefix + "/edit" + note.url
-        liquid :note, layout: :layout, locals: { note: note, title: note.title, prefix: url_prefix, thinking: thinking, edit_url: edit_url }
+        locals = { note: note, title: note.title, prefix: url_prefix, thinking: book.thinking?, edit_url: url_prefix + "/edit" + note.url }
+
+        if book.thinking?
+          next_name = name.walk( 1)
+          prev_name = name.walk(-1)
+          locals[:next_url] = url_prefix + next_name.url if next_name
+          locals[:prev_url] = url_prefix + prev_name.url if prev_name
+        end
+
+        liquid :note, layout: :layout, locals: locals
       end
     end
 
@@ -55,10 +62,6 @@ module Wit
   end
 
   class ThinkingBookWeb < BookWeb
-    def thinking()
-      true
-    end
-
     def book
       @@book ||= repo.thinking_book
     end
