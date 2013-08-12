@@ -38,11 +38,12 @@ a:hover {
 
 .note {
   width: 80%;
+  font-size: 14pt;
+  line-height: 170%;
+
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  font-size: 14pt;
-  line-height: 170%;
 }
 
 .note h1, .note h2 {
@@ -295,3 +296,14 @@ div.note-digits {
 .edit-controls input[type=checkbox]:checked:before {
   color: #c00;
 }
+
+@media screen and (max-width:480px) {
+  .note h1 { font-size: 24pt; }
+  .note h2 { font-size: 16pt; }
+
+  .note {
+    width: 85%;
+    font-size: 12pt;
+  }
+}
+
