@@ -10,14 +10,14 @@ describe Wit::Book do
 
     it "makes a name from date like URL components" do
       name = @book.name_from_components("2013", "06", "09", "1234", "hello", :md)
-      expect(name.filename).to eq("./2013_06/2013_06_09_1234_hello.md")
+      expect(name.filename).to eq("./n/2013_06/2013_06_09_1234_hello.md")
       expect(name.components.digits).to eq(["2013", "06", "09", "1234"])
       expect(name.components.title).to eq("hello")
     end
 
     it "makes a name even without specifying title" do
       name = @book.name_from_components("2013", "06", "09", "1234", nil, :md)
-      expect(name.filename).to eq("./2013_06/2013_06_09_1234_index.md")
+      expect(name.filename).to eq("./n/2013_06/2013_06_09_1234_index.md")
     end
 
     it "makes a name of a fresh note" do
@@ -33,7 +33,7 @@ describe Wit::Book do
 
   context do
     before(:each) do 
-      @book = Wit::Book.new("./testrepo/n", thinking: true)
+      @book = Wit::Book.new("./testrepo", thinking: true)
     end
 
     it "lists latest book names" do
@@ -89,7 +89,7 @@ end
 describe Wit::Name do
   context do
     before(:each) do 
-      @book = Wit::Book.new("./testrepo/n")
+      @book = Wit::Book.new("./testrepo")
     end
 
     it "responts exist?" do
@@ -129,7 +129,7 @@ describe Wit::Name do
 end
 
 def testdata_named(name)
-  File.join(File.dirname(__FILE__), "testdata", name)
+  File.join(File.dirname(__FILE__), "testdata", "n", name)
 end
 
 describe Wit::Note do

@@ -43,7 +43,10 @@ module Wit
       raise NotFound unless title =~ /(\w|\d|\-)+/ or title == nil
       raise NotFound unless TYPES.include?(type)
       title = "index" unless title
-      NoteName.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
+      NoteName.new(File.join(@noteroot, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
+    end
+
+    def page_page_from_name(name)
     end
 
     def md_name_from_components(yyyy, mm, dd, hhmmtitle)
@@ -74,13 +77,13 @@ module Wit
       end
     end
 
-    def covername() NoteName.new(File.join(@root, "cover.md")); end
+    def covername() NoteName.new(File.join(@noteroot, "cover.md")); end
     def cover() to_note(covername); end
 
     def latest_note_names
       raise unless thinking?
       Enumerator.new do |y|
-        Dir.glob(File.join(@root, "*")).reverse.each do |dir|
+        Dir.glob(File.join(@noteroot, "*")).reverse.each do |dir|
           Dir.glob(File.join(dir, "*.md")).reverse.each do |note|
             y << NoteName.new(note)
           end
@@ -89,7 +92,7 @@ module Wit
     end
 
     def months
-      Dir.glob(File.join(@root, "*")).inject([]) do |a, dir|
+      Dir.glob(File.join(@noteroot, "*")).inject([]) do |a, dir|
         if File.directory?(dir)
           y, m = File.basename(dir).split("_").map { |i| i.to_i }
           a << Month.new(y, m, dir)
@@ -101,7 +104,7 @@ module Wit
     def month_from_components(yyyy, mm)
       raise NotFound unless yyyy  =~ /\d\d\d\d/
       raise NotFound unless   mm  =~ /\d\d/
-      Month.new(yyyy.to_i, mm.to_i, File.join(@root, "#{yyyy}_#{mm}"))
+      Month.new(yyyy.to_i, mm.to_i, File.join(@noteroot, "#{yyyy}_#{mm}"))
     end
 
     def month_of(name)
@@ -120,7 +123,7 @@ module Wit
     end
 
     def initialize(root, options={})
-      @root = root
+      @noteroot = File.join(root, "n")
       @options = options
     end
 

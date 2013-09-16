@@ -192,4 +192,7 @@ EOF
       end
     end
   end
+
+  class PageName < Name
+  end
 end
