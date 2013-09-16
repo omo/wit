@@ -68,7 +68,7 @@ a:hover {
   padding: 0px;
 
   display: flex;
-  flex-direction: rows;
+  flex-direction: row;
   align-content: stretch;
 }
 
@@ -223,6 +223,20 @@ div.note-digits {
   font-size: 12px;
 }
 
+hr.index-sep {
+  margin: 1em 0em 1em 0em;
+}
+
+div.page-edit input[type=button],
+div.page-edit input[type=text] {
+  font-size: 16px;
+  font-family: Verdana;
+  -webkit-appearance: none;
+  background-color: white;
+  border-style: solid;
+  padding: 0.2em;
+}
+
 .edit {
   display: flex;
   flex-direction: column;
@@ -230,17 +244,41 @@ div.note-digits {
   height: 100%;
 }
 
-.edit-title {
-  background-color: #efe;
+.edit-title-container {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
 
-  font-size: 18pt;
-  padding: 0.5em;
   margin: 0px;
   width: 100%;
 
+  background-color: #efe;
+  outline: none;
+}
+
+.edit-title-page-sign {
+  color: #ccc;
+  font-size: 18pt;
+  padding: 0.5em 0em 0.5em 0.5em;
+}
+
+.edit-title-page-sign-pad {
+  font-size: 18pt;
+  padding: 0.5em 0em 0.5em 0.5em;
+}
+
+.edit-title-page-sign-disabled {
+  display: none;
+}
+
+.edit-title {
+  flex: 1;
+  background-color: transparent;
+  padding: 0.5em 0.5em 0.5em 0em;
+
+  font-size: 18pt;
   border-style: none;
   outline: none;
-
 }
 
 .edit-body {

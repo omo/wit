@@ -8,4 +8,14 @@
   </li>
 {% endfor %}
 </ul>
+{% if thinking %}
+<div class="page-edit">
+<hr class="index-sep"/>
+<input type="text" id="newPageLabel"></input>
+<input type="button" id="newPageButton" value="New!"></input>
+</div>
+<script>
+WIT.initPageIndexView();
+</script>
+{% endif %}
 </div>
