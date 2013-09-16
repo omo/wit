@@ -156,6 +156,13 @@ describe "Posting" do
       expect(res["publish"]).to eq(true)
     end
 
+    it "creates a page" do
+      header("Content-Type", "application/json")
+      put("/~/+/Hello", to_json_str("publish" => true, "body" => "Hello2"))
+      expect(last_response.status).to eq(200)
+      expect(JSON.parse(last_response.body)["body"]).to eq("Hello2")
+    end
+
     it "makes fresh url" do
       app.enable(:disable_auth)
       header("Content-Type", "application/json")

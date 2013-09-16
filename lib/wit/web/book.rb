@@ -91,6 +91,15 @@ module Wit
       @@book ||= repo.thinking_book
     end
 
+    def put_note_named(name)
+      publish = required_value_of("publish")
+      body = required_value_of("body")
+      note = book.to_note(name, { fresh: true })
+      note.update({ "publish" => publish }, body)
+      note.write # We don't sync here. Each client should do that.
+      JSON.dump(note.to_api_response)
+    end
+
     get '/latest' do
       if settings.environment == :test
         notes = book.latest_note_names.take(10).map { |name| name.to_note }
@@ -100,16 +109,16 @@ module Wit
 
     # Following endpoints are APIs for editing screens
 
+    put '/+/:label' do
+      should_be_api_request
+      name = book.page_name_from_label(params[:label])
+      put_note_named(name)
+    end
+
     put '/:yyyy/:mm/:dd/:hhmmtitle' do
       should_be_api_request
-
-      publish = required_value_of("publish")
-      body = required_value_of("body")
       name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
-      note = book.to_note(name, { fresh: true })
-      note.update({ "publish" => publish }, body)
-      note.write # We don't sync here. Each client should do that.
-      JSON.dump(note.to_api_response)
+      put_note_named(name)
     end
 
     post '/fresh' do
