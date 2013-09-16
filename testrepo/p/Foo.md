@@ -1,4 +1,4 @@
-publish: false
+publish: true
 ----
 
 Hello, Foo
