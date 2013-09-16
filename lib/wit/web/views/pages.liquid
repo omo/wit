@@ -1,0 +1,11 @@
+<h1 id="identity"><a href="{{ prefix }}/">Writing Is Thinking</a></h1>
+<div class="pages">
+<h1>Pages</h1>
+<ul class="note-list">
+{% for n in notes %}
+  <li class="note-item">
+    <div><a href="{{prefix}}{{n.url}}">{{ n.title_or_untitled }}</a></div>
+  </li>
+{% endfor %}
+</ul>
+</div>

@@ -80,7 +80,7 @@ describe Wit::Book do
     end
 
     it "lists page names" do
-      expect(@book.page_names.map { |n| File.basename(n.filename) }.to_a).to eq(["Bar.md", "Foo.md"])
+      expect(@book.page_names.map { |n| File.basename(n.filename) }.to_a).to eq(["Bar.md", "Baz.md", "Foo.md"])
     end
   end
 end

@@ -116,10 +116,15 @@ describe "The article note" do
   # XXX: Should test not found case
 end
 
-describe "The page view" do
+describe "The page view and the page index" do
   include WitWebTesting
   it "shows lablelled page" do
     get "/+/Foo"
+    expect(last_response.status).to eq(200)
+  end
+
+  it "shows lablelled page" do
+    get "/pages"
     expect(last_response.status).to eq(200)
   end
 end

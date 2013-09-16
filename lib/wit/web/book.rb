@@ -17,9 +17,14 @@ module Wit
       { note: note, title: note.title, prefix: url_prefix, thinking: book.thinking?, edit_url: url_prefix + "/edit" + note.url }
     end
 
+    def index_view_locals
+      { months: book.months, prefix: url_prefix, thinking: book.thinking? }
+    end
+
     get '/' do
       note = book.cover
-      liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix, thinking: book.thinking? }
+      #liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix, thinking: book.thinking? }
+      liquid :cover, layout: :index, locals: index_view_locals.merge({ note: note, title: note.title,  })
     end
 
 
@@ -27,6 +32,12 @@ module Wit
       name = book.page_name_from_label(params[:label])
       note = book.to_note(name)
       liquid :note, layout: :layout, locals: note_view_locals(note)
+    end
+
+    get '/pages' do
+      names = book.page_names
+      notes = book.to_notes(names)
+      liquid :pages, layout: :index, locals: index_view_locals.merge({ notes: notes })
     end
 
     get '/:yyyy/:mm' do
