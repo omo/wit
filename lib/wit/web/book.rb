@@ -31,7 +31,12 @@ module Wit
     get '/+/:label' do
       name = book.page_name_from_label(params[:label])
       note = book.to_note(name)
-      liquid :note, layout: :layout, locals: note_view_locals(note)
+      locals = note_view_locals(note)
+      if book.thinking?
+        locals[:up_url] = url_prefix + "/pages"
+      end
+      
+      liquid :note, layout: :layout, locals: locals
     end
 
     get '/pages' do
