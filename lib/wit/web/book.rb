@@ -13,9 +13,20 @@ module Wit
     def book() raise "Should be overriden!"; end
     def url_prefix() book.thinking?() ? "/~" : ""; end
 
+    def note_view_locals(note)
+      { note: note, title: note.title, prefix: url_prefix, thinking: book.thinking?, edit_url: url_prefix + "/edit" + note.url }
+    end
+
     get '/' do
       note = book.cover
       liquid :cover, layout: :index, locals: { note: note, months: book.months, title: note.title, prefix: url_prefix, thinking: book.thinking? }
+    end
+
+
+    get '/+/:label' do
+      name = book.page_name_from_label(params[:label])
+      note = book.to_note(name)
+      liquid :note, layout: :layout, locals: note_view_locals(note)
     end
 
     get '/:yyyy/:mm' do
@@ -41,7 +52,7 @@ module Wit
     get '/:yyyy/:mm/:dd/:hhmmtitle' do
       name = book.md_name_from_components(params[:yyyy], params[:mm], params[:dd], params[:hhmmtitle])
       note = book.to_note(name)
-      locals = { note: note, title: note.title, prefix: url_prefix, thinking: book.thinking?, edit_url: url_prefix + "/edit" + note.url }
+      locals = note_view_locals(note)
       if book.thinking?
         next_name = name.walk( 1)
         prev_name = name.walk(-1)

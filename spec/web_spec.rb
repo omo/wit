@@ -40,7 +40,7 @@ describe "The web app" do
   end
 end
 
-describe "THe month index" do
+describe "The month index" do
   include WitWebTesting
 
   it "returns list of note links" do
@@ -114,6 +114,14 @@ describe "The article note" do
   end
 
   # XXX: Should test not found case
+end
+
+describe "The page view" do
+  include WitWebTesting
+  it "shows lablelled page" do
+    get "/+/Foo"
+    expect(last_response.status).to eq(200)
+  end
 end
 
 def to_json_str(dict)
