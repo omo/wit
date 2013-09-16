@@ -46,7 +46,10 @@ module Wit
       NoteName.new(File.join(@noteroot, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
     end
 
-    def page_page_from_name(name)
+    def page_name_from_label(label, type = :md)
+      raise NotFound unless TYPES.include?(type)
+      raise NotFound unless label =~ /[[:alnum:]]+/
+      PageName.new(File.join(@pageroot, "#{label}.#{type}"))
     end
 
     def md_name_from_components(yyyy, mm, dd, hhmmtitle)
@@ -124,6 +127,7 @@ module Wit
 
     def initialize(root, options={})
       @noteroot = File.join(root, "n")
+      @pageroot = File.join(root, "p")
       @options = options
     end
 

@@ -73,6 +73,11 @@ describe Wit::Book do
       expect(target.to_s).to eq("2012/01")
     end
 
+    it "return a page name" do
+      name = @book.page_name_from_label("FooBar")
+      expect(name.filename.to_s).to eq("./testrepo/p/FooBar.md")
+      expect(name.url).to eq("/+/FooBar")
+    end
   end
 end
 
@@ -166,5 +171,19 @@ describe Wit::Note do
       expect(@hello_note.published?).to eq(!was_published)
     end
   end
+
+  describe Wit::PageName do
+    context do
+      before(:each) do 
+        @book = Wit::Book.new("./testrepo")
+      end
+      
+      it "should be convertible to note" do
+        name = @book.page_name_from_label("Foo")
+        expect(name.to_note.class).to eq(Wit::Note)
+      end
+    end
+  end
+
 end
 

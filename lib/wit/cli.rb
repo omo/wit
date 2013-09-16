@@ -35,11 +35,11 @@ module Wit
       puts n ? n.filename : ""
     end
 
-    desc "page NAME", "Reurn the filename of specified page."
+    desc "page LABEL", "Reurn the filename of specified page."
     option :boilerplate, :type => :boolean
-    def page(name)
-      # FIXME: 
-      n = Wit::NoteName.new(name).walk(-1)
+    def page(label)
+      n = book.page_name_from_label(label)
+      n.to_note.write_boilerplate(label) if options[:boilerplate] and not n.exist?
       puts n ? n.filename : ""
     end
 

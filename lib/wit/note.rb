@@ -152,9 +152,22 @@ EOF
     def head_text() @content.head_text ||= body_and_head_text[:head]; end
   end
 
-  class NoteName < Name
+  class Name
     def to_note
       Note.new(self)
+    end
+  end
+
+  class NoteName < Name
+    class NoteComponents < Struct.new(:digits, :title)
+      def to_u
+        # FIXME: take care of non-md type/suffix
+        if self.title
+          "/" + self.digits.join("/") + "-" + self.title
+        else
+          "/" + self.digits.join("/")
+        end
+      end
     end
 
     def walk(delta)
@@ -178,21 +191,28 @@ EOF
       end
     end
 
-    def components() @components ||= split_to_components; end
+    def components() @components ||= make_components; end
+    def url() components.to_u; end
 
     private
     
-    def split_to_components
+    def make_components
       # FIXME: take care of non-md type/suffix
       components = File.basename(@filename).gsub(/\..+$/, "").split("_")
       if components[-1] == "index"
-        Components.new(components[0 .. -2], nil)
+        NoteComponents.new(components[0 .. -2], nil)
       else
-        Components.new(components[0 .. -2], components[-1])
+        NoteComponents.new(components[0 .. -2], components[-1])
       end
     end
   end
 
   class PageName < Name
+    def url() "/+/#{label}"; end
+    def label() @label ||= make_label; end
+
+    def make_label
+      File.basename(@filename).gsub(/\..+$/, "")
+    end
   end
 end
