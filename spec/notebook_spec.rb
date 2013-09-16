@@ -78,6 +78,10 @@ describe Wit::Book do
       expect(name.filename.to_s).to eq("./testrepo/p/FooBar.md")
       expect(name.url).to eq("/+/FooBar")
     end
+
+    it "lists page names" do
+      expect(@book.page_names.map { |n| File.basename(n.filename) }.to_a).to eq(["Bar.md", "Foo.md"])
+    end
   end
 end
 

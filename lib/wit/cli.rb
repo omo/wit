@@ -43,6 +43,13 @@ module Wit
       puts n ? n.filename : ""
     end
 
+    desc "pages", "Reurn the list of existing page labels page."
+    def pages
+      book.page_names.map { |n| n.label }.each do |l|
+        print "#{l}\n"
+      end
+    end
+
     desc "sync", "Pull then push the note repository."
     def sync
       repo.sync

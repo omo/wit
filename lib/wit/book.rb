@@ -52,6 +52,14 @@ module Wit
       PageName.new(File.join(@pageroot, "#{label}.#{type}"))
     end
 
+    def page_names
+      Enumerator.new do |y|
+        Dir.glob(File.join(@pageroot, "*.md")).sort.map do |path| 
+          y << PageName.new(path) 
+        end
+      end
+    end
+
     def md_name_from_components(yyyy, mm, dd, hhmmtitle)
       m = /(\d+)\-(.*)/.match(hhmmtitle)
       if m
@@ -71,6 +79,7 @@ module Wit
     end
 
     def to_notes(names)
+      # FIXME: Could be written as Enumerator
       names.inject([]) do |a, name|
         if name.exist?
           note = name.to_note
@@ -93,7 +102,7 @@ module Wit
         end
       end
     end
-
+    
     def months
       Dir.glob(File.join(@noteroot, "*")).inject([]) do |a, dir|
         if File.directory?(dir)
