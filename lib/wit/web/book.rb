@@ -28,6 +28,13 @@ module Wit
     end
 
 
+    get '/+/:label.json' do
+      should_be_api_request
+      name = book.page_name_from_label(params[:label])
+      note = book.to_note(name)
+      JSON.dump(note.to_api_response)
+    end
+
     get '/+/:label' do
       name = book.page_name_from_label(params[:label])
       note = book.to_note(name)

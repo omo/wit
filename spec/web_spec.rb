@@ -123,6 +123,14 @@ describe "The page view and the page index" do
     expect(last_response.status).to eq(200)
   end
 
+  it "returns as json" do
+    header("Content-Type", "application/json")
+    get "/+/Foo.json"
+    last_response.should be_ok
+    j = JSON.parse(last_response.body)
+    expect(j["body"]).to include("Foo")
+  end
+
   it "shows lablelled page" do
     get "/pages"
     expect(last_response.status).to eq(200)
