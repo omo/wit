@@ -136,7 +136,7 @@ describe Wit::Note do
   context do
     before(:each) do 
       @book = Wit::Book.new("./")
-      @hello_note = Wit::Name.new(testdata_named("hello.md")).to_note
+      @hello_note = Wit::NoteName.new(testdata_named("hello.md")).to_note
     end
 
     it "should respond exist?" do

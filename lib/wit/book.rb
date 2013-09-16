@@ -26,7 +26,7 @@ module Wit
 
     def names
       type = "md"
-      Dir.glob(File.join(@filename, "*." + type)).map { |n| Name.new(n) }
+      Dir.glob(File.join(@filename, "*." + type)).map { |n| NoteName.new(n) }
     end
 
     def <=>(other)
@@ -43,7 +43,7 @@ module Wit
       raise NotFound unless title =~ /(\w|\d|\-)+/ or title == nil
       raise NotFound unless TYPES.include?(type)
       title = "index" unless title
-      Name.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
+      NoteName.new(File.join(@root, "#{yyyy}_#{mm}", "#{yyyy}_#{mm}_#{dd}_#{hhmm}_#{title}.#{type}"))
     end
 
     def md_name_from_components(yyyy, mm, dd, hhmmtitle)
@@ -74,7 +74,7 @@ module Wit
       end
     end
 
-    def covername() Name.new(File.join(@root, "cover.md")); end
+    def covername() NoteName.new(File.join(@root, "cover.md")); end
     def cover() to_note(covername); end
 
     def latest_note_names
@@ -82,7 +82,7 @@ module Wit
       Enumerator.new do |y|
         Dir.glob(File.join(@root, "*")).reverse.each do |dir|
           Dir.glob(File.join(dir, "*.md")).reverse.each do |note|
-            y << Name.new(note)
+            y << NoteName.new(note)
           end
         end
       end

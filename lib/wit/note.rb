@@ -152,9 +152,44 @@ EOF
     def head_text() @content.head_text ||= body_and_head_text[:head]; end
   end
 
-  class Name
+  class NoteName < Name
     def to_note
       Note.new(self)
+    end
+
+    def walk(delta)
+      # FIXME: impl
+      raise if 1 < delta.abs
+      # FIXME: handle non-md file
+      siblings = Dir.glob(File.join(File.dirname(@filename), "*.md")).sort
+      index = siblings.find_index(@filename)
+      return NoteName.new(siblings[index + delta]) if (0 ... siblings.size).cover?(index + delta)
+
+      dirdelta = delta # FIXME: Won't be true for |1 < delta.abs|
+      dir = File.dirname(@filename)
+      dirsibs = Dir.glob(File.join(File.dirname(dir), "*"))
+      dirindex = dirsibs.find_index(dir)
+      cursor = dirindex + dirdelta
+      while true
+        return nil unless (0 ... dirsibs.size).cover?(cursor)
+        cousins = Dir.glob(File.join(dirsibs[cursor], "*.md")).sort
+        return NoteName.new(0 < delta ? cousins.first : cousins.last) unless cousins.empty?
+        cursor += dirdelta
+      end
+    end
+
+    def components() @components ||= split_to_components; end
+
+    private
+    
+    def split_to_components
+      # FIXME: take care of non-md type/suffix
+      components = File.basename(@filename).gsub(/\..+$/, "").split("_")
+      if components[-1] == "index"
+        Components.new(components[0 .. -2], nil)
+      else
+        Components.new(components[0 .. -2], components[-1])
+      end
     end
   end
 end
