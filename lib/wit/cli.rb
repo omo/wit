@@ -25,14 +25,29 @@ module Wit
 
     desc "next NAME", "Print a next note entry of given one."
     def next(name)
-      n = Wit::Name.new(name).walk(1)
+      n = Wit::NoteName.new(name).walk(1)
       puts n ? n.filename : ""
     end
 
     desc "prev NAME", "Print a previous note entry of given one."
     def prev(name)
-      n = Wit::Name.new(name).walk(-1)
+      n = Wit::NoteName.new(name).walk(-1)
       puts n ? n.filename : ""
+    end
+
+    desc "page LABEL", "Reurn the filename of specified page."
+    option :boilerplate, :type => :boolean
+    def page(label)
+      n = book.page_name_from_label(label)
+      n.to_note.write_boilerplate(label) if options[:boilerplate] and not n.exist?
+      puts n ? n.filename : ""
+    end
+
+    desc "pages", "Reurn the list of existing page labels page."
+    def pages
+      book.page_names.map { |n| n.label }.each do |l|
+        print "#{l}\n"
+      end
     end
 
     desc "sync", "Pull then push the note repository."

@@ -4,6 +4,8 @@ html, body {
   margin: 0px;
   padding: 0px;
   font-family: Verdana, serif;
+  height: 100%; /* min-height doesn't work... */
+  overflow: visible;
 }
 
 h1 {
@@ -19,14 +21,29 @@ a:hover {
   text-decoration: underline;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  min-height: 100%;
+}
+
+.content {
+  flex: 1;
+}
+
+.note, .cover {
+  padding: 2em 1em 1em 1em;
+}
+
 .note {
   width: 80%;
+  font-size: 14pt;
+  line-height: 170%;
+
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  padding: 2em 0em 1em 0em;
-  font-size: 16pt;
-  line-height: 170%;
 }
 
 .note h1, .note h2 {
@@ -43,6 +60,50 @@ a:hover {
   padding: 1em 2em 1em 2em;
   font-size: smaller;
   background-color: #eee;
+}
+
+.think-footer {
+  min-height: 0.5em;
+  background-color: black;
+  padding: 0px;
+
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+.think-footer-item {
+  font-size: 10pt;
+  margin: 0.5em 0em 0.5em 0.5em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  display: inline-block;
+  color: white;
+  background-color: #333;
+}
+
+input.think-footer-item {
+  margin: 0px;
+  padding: 0.2em 0.5em 0.2em 0em;
+}
+
+.think-footer-item a {
+  color: white;
+}
+
+.think-footer-item a:link {
+  text-decoration: none;
+}
+
+.think-footer-console {
+  flex: 1;
+  background-color: #115;
+  color: #ccc;
+}
+
+.think-footer-padding {
+  background-color: transparent;
+  width: 0px;
+  padding: 0px;
 }
 
 h1#identity {
@@ -66,14 +127,12 @@ h1#identity a {
 
 .cover {
   max-width: 800px;
-  padding: 2em 0em 1em 0em;
   margin: 0em auto 0em auto;
   font-size: 18pt;
 }
 .cover h1 {
-  /* margin: 0em; */
   padding : 0em;
-  border-style: normal;
+  border-style: none;
 
   font-size: 28pt;
   padding : 0em;
@@ -89,43 +148,34 @@ h1#identity a {
 }
 
 .navigation {
+  display: flex;
+  flex-direction: row;
+
   background-color: #ddd;
   color: #777;
-  position: absolute;
-  left: 0px;
-  top: 100%;
-  width: 100%;
-  height: 240px;
-  margin-top: -240px;
 
   border-color: #aaa;
   border-style: solid;
   border-width: 1px 0px 0px 0px;
 
   font-size: 14px;
+
+}
+
+.archive {
+  width: 10em;
 }
 
 .archive h2 {
   font-size: 14px;
+  padding: 1em;
+  font-weight: normal;
 }
 
-.archive {
-  width: 600px;
-  margin: 2em auto 2em auto;;
-}
-
-hr.footer {
-  display: hidden;
-  height: 2em;
-  border-style: none;
-}
-
-.month {
-  width: 80%;
-  max-width: 800px;
-  margin: 0em auto 0em auto;
-  padding: 2em 0em 1em 0em;
-  font-size: 16pt;
+.archive-content {
+  padding: 0px;
+  background-color: #eee;
+  flex: 1;
 }
 
 ul.month-list {
@@ -135,6 +185,21 @@ ul.month-list {
 ul.month-list li {
   display: inline-block;
 }
+
+hr.footer {
+  visibility: hidden;
+  height: 2em;
+  border-style: none;
+}
+
+.month, .pages {
+  width: 80%;
+  max-width: 800px;
+  margin: 0em auto 0em auto;
+  padding: 2em 0em 1em 0em;
+  font-size: 16pt;
+}
+
 
 ul.note-day-list {
   display: block;
@@ -157,3 +222,126 @@ li.note-item {
 div.note-digits {
   font-size: 12px;
 }
+
+hr.index-sep {
+  margin: 1em 0em 1em 0em;
+}
+
+div.page-edit input[type=button],
+div.page-edit input[type=text] {
+  font-size: 16px;
+  font-family: Verdana;
+  -webkit-appearance: none;
+  background-color: white;
+  border-style: solid;
+  padding: 0.2em;
+}
+
+.edit {
+  display: flex;
+  flex-direction: column;
+  align-content: stretch;
+  height: 100%;
+}
+
+.edit-title-container {
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+
+  margin: 0px;
+  width: 100%;
+
+  background-color: #efe;
+  outline: none;
+}
+
+.edit-title-page-sign {
+  color: #ccc;
+  font-size: 18pt;
+  padding: 0.5em 0em 0.5em 0.5em;
+}
+
+.edit-title-page-sign-pad {
+  font-size: 18pt;
+  padding: 0.5em 0em 0.5em 0.5em;
+}
+
+.edit-title-page-sign-disabled {
+  display: none;
+}
+
+.edit-title {
+  flex: 1;
+  background-color: transparent;
+  padding: 0.5em 0.5em 0.5em 0em;
+
+  font-size: 18pt;
+  border-style: none;
+  outline: none;
+}
+
+.edit-body {
+  flex: 1;
+
+  font-size: 14pt;
+  font-family: monospace;
+  padding: 0.5em;
+
+  width: 100%;
+  height: 100%;
+
+  border-style: solid;
+  border-width: 2px;
+  border-color: white;
+  outline: none;
+}
+
+.edit-dirty {
+  border-color: #a00;
+}
+
+.edit-controls {
+}
+
+.edit-controls a {
+  color: white;
+  text-decoration: none;
+}
+
+.saving {
+  background-color: #ccc;
+  color: #999;
+}
+
+.edit-controls input[type=checkbox]:before {
+  content: "P";
+
+  /* This should be include .think-footer-item */
+  font-size: 10pt;
+  margin: 0.5em 0em 0.5em 0.5em;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  display: inline-block;
+  color: white;
+  background-color: #333;
+}
+
+.edit-controls input[type=checkbox] {
+  -webkit-appearance: none;
+  margin: 0em;
+}
+
+.edit-controls input[type=checkbox]:checked:before {
+  color: #c00;
+}
+
+@media screen and (max-width:480px) {
+  .note h1 { font-size: 24pt; }
+  .note h2 { font-size: 16pt; }
+
+  .note {
+    width: 85%;
+    font-size: 12pt;
+  }
+}
+

@@ -1,0 +1,21 @@
+<h1 id="identity"><a href="{{ prefix }}/">Writing Is Thinking</a></h1>
+<div class="pages">
+<h1>Pages</h1>
+<ul class="note-list">
+{% for n in notes %}
+  <li class="note-item">
+    <div><a href="{{prefix}}{{n.url}}">{{ n.title_or_untitled }}</a></div>
+  </li>
+{% endfor %}
+</ul>
+{% if thinking %}
+<div class="page-edit">
+<hr class="index-sep"/>
+<input type="text" id="newPageLabel"></input>
+<input type="button" id="newPageButton" value="New!"></input>
+</div>
+<script>
+WIT.initPageIndexView();
+</script>
+{% endif %}
+</div>

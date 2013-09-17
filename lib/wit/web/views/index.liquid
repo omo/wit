@@ -1,23 +1,48 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport" content="width=device-width">
 <title>WiT: Writing is Thinking</title>
-<link href='http://fonts.googleapis.com/css?family=Cinzel|Alef:400,700' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Fauna+One|Cinzel|Alef:400,700' rel='stylesheet' type='text/css'>
 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="/stylesheets/wit.css" />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script src="/javascripts/wit.js"></script>
 </head>
 <body>
-<div>
+<div class="container">
+<div class="content">
 {{yield}}
 </div>
+
 <div class="navigation">
+
 <div class="archive">
 <h2>Archives</h2>
+</div>
+
+<div class="archive-content">
 <ul class="month-list">
 {% for m in months %}
   <li><a href="{{prefix}}{{m.url}}">{{m}}</a></li>
 {% endfor %}
+  <li><a href="{{prefix}}/pages">Pages</a></li>
 </ul>
+</div>
+</div>
+
+{% if thinking %}
+<div class="think-footer">
+  <div class="think-footer-item index-nav-new" tabindex="0">New</div>
+  <div class="think-footer-item index-nav-sync" tabindex="0">Sync</div>
+  <div class="think-footer-item think-footer-console"></div>
+  <div class="think-footer-item think-footer-padding"></div>
+</div>
+<script>
+$(document).on("ready", WIT.initIndexView);
+</script>
+{% endif %}
+
 </div>
 </div>
 </body>

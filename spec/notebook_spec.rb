@@ -10,14 +10,14 @@ describe Wit::Book do
 
     it "makes a name from date like URL components" do
       name = @book.name_from_components("2013", "06", "09", "1234", "hello", :md)
-      expect(name.filename).to eq("./2013_06/2013_06_09_1234_hello.md")
+      expect(name.filename).to eq("./n/2013_06/2013_06_09_1234_hello.md")
       expect(name.components.digits).to eq(["2013", "06", "09", "1234"])
       expect(name.components.title).to eq("hello")
     end
 
     it "makes a name even without specifying title" do
       name = @book.name_from_components("2013", "06", "09", "1234", nil, :md)
-      expect(name.filename).to eq("./2013_06/2013_06_09_1234_index.md")
+      expect(name.filename).to eq("./n/2013_06/2013_06_09_1234_index.md")
     end
 
     it "makes a name of a fresh note" do
@@ -33,7 +33,7 @@ describe Wit::Book do
 
   context do
     before(:each) do 
-      @book = Wit::Book.new("./testrepo/n", thinking: true)
+      @book = Wit::Book.new("./testrepo", thinking: true)
     end
 
     it "lists latest book names" do
@@ -51,7 +51,7 @@ describe Wit::Book do
 
     it "enumerates recorded months" do
       target = @book.months
-      expect(target.size).to eq(3)
+      expect(target.size).to eq(4)
       expect(target.first.to_s).to eq("2011/12")
     end
 
@@ -65,6 +65,22 @@ describe Wit::Book do
     it "returns a month with containing names" do
       target = @book.month_from_components("2011", "12")
       expect(File.exist?(target.filename)).to be_true
+    end
+
+    it "returns a month of given name" do
+      name = @book.name_from_components("2012", "01", "02", "1234", "hello", :md)
+      target = @book.month_of(name)
+      expect(target.to_s).to eq("2012/01")
+    end
+
+    it "return a page name" do
+      name = @book.page_name_from_label("FooBar")
+      expect(name.filename.to_s).to eq("./testrepo/p/FooBar.md")
+      expect(name.url).to eq("/+/FooBar")
+    end
+
+    it "lists page names" do
+      expect(@book.page_names.map { |n| File.basename(n.filename) }.to_a).to eq(["Bar.md", "Baz.md", "Foo.md"])
     end
   end
 end
@@ -82,7 +98,7 @@ end
 describe Wit::Name do
   context do
     before(:each) do 
-      @book = Wit::Book.new("./testrepo/n")
+      @book = Wit::Book.new("./testrepo")
     end
 
     it "responts exist?" do
@@ -122,14 +138,14 @@ describe Wit::Name do
 end
 
 def testdata_named(name)
-  File.join(File.dirname(__FILE__), "testdata", name)
+  File.join(File.dirname(__FILE__), "testdata", "n", name)
 end
 
 describe Wit::Note do
   context do
     before(:each) do 
       @book = Wit::Book.new("./")
-      @hello_note = Wit::Name.new(testdata_named("hello.md")).to_note
+      @hello_note = Wit::NoteName.new(testdata_named("hello.md")).to_note
     end
 
     it "should respond exist?" do
@@ -149,6 +165,29 @@ describe Wit::Note do
       expect(@hello_note.title).to eq("The Title")
     end
 
+    it "should be written" do
+      was_published = @hello_note.published?
+      updated_body = "Updated!"
+      updated_head = { "publish" => !was_published }
+      @hello_note.update(updated_head, updated_body)
+      expect(@hello_note.body).to eq("<p>#{updated_body}</p>\n")
+      expect(@hello_note.title).to be_nil
+      expect(@hello_note.published?).to eq(!was_published)
+    end
   end
+
+  describe Wit::PageName do
+    context do
+      before(:each) do 
+        @book = Wit::Book.new("./testrepo")
+      end
+      
+      it "should be convertible to note" do
+        name = @book.page_name_from_label("Foo")
+        expect(name.to_note.class).to eq(Wit::Note)
+      end
+    end
+  end
+
 end
 

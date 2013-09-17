@@ -16,7 +16,7 @@ class RackupWeb < Wit::Web
   end
 
   # For debug.
-  #set(:disable_auth, true) if ENV["RACK_ENV"] == "development"
+  set(:disable_auth, true) if ENV["RACK_ENV"] == "development"
 end
 
 use(Rack::Session::EncryptedCookie,

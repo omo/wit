@@ -68,6 +68,19 @@
 	(wit-cache-timeline prev-name current-name)
 	(find-file prev-name)))))
 
+(defun wit-list-pages ()
+  (let ((list-str (wit-command "pages")))
+    (split-string list-str "\n")))
+
+(defun wit-open-page (label)
+  (interactive
+   (list
+    (completing-read "Page: " (wit-list-pages))))
+  (progn
+    (message label)
+    (wit-command-and-open (format "page --boilerplate \"%s\"" label))
+    (end-of-buffer)))
+
 (defun wit-sync ()
   (interactive)
   (message "Syncing...")
@@ -99,6 +112,7 @@
   (global-set-key [?\C-c ?w ?s] `wit-sync)
   (global-set-key [?\C-c ?w ?F] `wit-open-fresh)
   (global-set-key [?\C-c ?w ?f] `wit-open-fresh-notitle)
+  (global-set-key [?\C-c ?w ?p] `wit-open-page)
   (global-set-key [?\C-c ?w ?l] `wit-open-latest))
 (wit-setup)
 
