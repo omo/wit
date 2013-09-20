@@ -62,9 +62,16 @@ a:hover {
   background-color: #eee;
 }
 
+.note hr {
+  border-style: solid;
+  border-width: 1px 0px 0px 0px;
+  border-color: #aaa;
+  margin: 1.5em 10% 1.5em 10%;
+}
+
 .think-footer {
   min-height: 0.5em;
-  background-color: black;
+  background-color: #114;
   padding: 0px;
 
   display: flex;
@@ -78,7 +85,7 @@ a:hover {
   padding: 0.2em 0.5em 0.2em 0.5em;
   display: inline-block;
   color: white;
-  background-color: #333;
+  background-color: #666;
 }
 
 input.think-footer-item {
