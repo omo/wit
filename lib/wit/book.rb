@@ -95,8 +95,8 @@ module Wit
     def latest_note_names
       raise unless thinking?
       Enumerator.new do |y|
-        Dir.glob(File.join(@noteroot, "*")).reverse.each do |dir|
-          Dir.glob(File.join(dir, "*.md")).reverse.each do |note|
+        Dir.glob(File.join(@noteroot, "*")).sort.reverse.each do |dir|
+          Dir.glob(File.join(dir, "*.md")).sort.reverse.each do |note|
             y << NoteName.new(note)
           end
         end
