@@ -180,7 +180,7 @@ EOF
 
       dirdelta = delta # FIXME: Won't be true for |1 < delta.abs|
       dir = File.dirname(@filename)
-      dirsibs = Dir.glob(File.join(File.dirname(dir), "*"))
+      dirsibs = Dir.glob(File.join(File.dirname(dir), "*")).sort
       dirindex = dirsibs.find_index(dir)
       cursor = dirindex + dirdelta
       while true
