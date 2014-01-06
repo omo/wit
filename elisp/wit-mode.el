@@ -1,6 +1,6 @@
 
 (defcustom wit-command-name 
-  "bash -l -c 'source $HOME/.rvm/scripts/rvm && rvm use 2.0.0 > /dev/null && ruby -I~/work/wit/lib ~/work/wit/bin/wit.rb %s'"
+  "bash -l -c 'source $HOME/.rvm/scripts/rvm && rvm use 2.1.0 > /dev/null && ruby -I~/work/wit/lib ~/work/wit/bin/wit.rb %s'"
   "Executable path for WIT script")
 
 ;; http://www.emacswiki.org/emacs/ElispCookbook
